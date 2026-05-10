@@ -12,7 +12,7 @@ import { Sponsors }       from './components/Sponsors';
 import { Footer }         from './components/Footer';
 
 const gallery1 = [
-  { src:'/gallery/front-view-basketball-player-holding-ball.jpg', quote:"Hard work beats talent when talent doesn't work hard.", author:'Tim Notke' },
+  { src:'/gallery/stephen-baker-QAX5Ylx-lKo-unsplash.jpg', quote:"Hard work beats talent when talent doesn't work hard.", author:'Tim Notke' },
   { src:'/gallery/tom-briskey-AddAnDkkovM-unsplash.jpg',          quote:"The strength of the team is each individual member.",  author:'Phil Jackson' },
   { src:'/gallery/stephen-baker-QAX5Ylx-lKo-unsplash.jpg',        quote:"Excellence is not a singular act, but a habit.",       author:"Shaquille O'Neal" },
   { src:'/gallery/kylie-osullivan-BfaBLVCBTI8-unsplash.jpg',      quote:"Age is just a number. Greatness has no expiry date.", author:'UNZA Legacy' },

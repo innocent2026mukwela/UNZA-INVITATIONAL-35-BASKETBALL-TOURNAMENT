@@ -188,7 +188,7 @@ export default function Admin() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
           {[
             { label: 'Total Teams',      value: regs.length,        sub: 'registered' },
-            { label: "Men's Division",   value: `${maleCount}/10`,  sub: `${10 - maleCount} slots left`, red: maleCount >= 10 },
+            { label: "Men's Division",   value: `${maleCount}/12`,  sub: `${12 - maleCount} slots left`, red: maleCount >= 12 },
             { label: "Women's Division", value: `${femaleCount}/8`, sub: `${8 - femaleCount} slots left`, red: femaleCount >= 8 },
             { label: 'Total Players',    value: regs.reduce((s, r) => s + parseInt(r.playerCount || '0', 10), 0), sub: 'across all teams' },
           ].map(c => (

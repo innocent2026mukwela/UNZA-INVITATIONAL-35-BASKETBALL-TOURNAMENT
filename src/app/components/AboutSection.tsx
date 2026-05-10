@@ -1,6 +1,6 @@
 const cards = [
   {
-    num: '01', tag: "Men's Division", title: '10 Teams',
+    num: '01', tag: "Men's Division", title: '12 Teams',
     desc: "The finest men's 35+ alumni teams compete in a pool-stage and knockout format for championship glory.",
     bg: '/gallery/markus-spiske-BfphcCvhl6E-unsplash.jpg',
     icon: (
@@ -65,7 +65,7 @@ export function AboutSection() {
           </div>
           <p className="font-['Inter'] font-light text-white/70 text-center max-w-[600px] mx-auto leading-relaxed text-lg reveal">
             The UNZA Invitational 35+ Tournament brings together{' '}
-            <strong className="text-white font-semibold">18 teams</strong> over two days of competitive basketball,
+            <strong className="text-white font-semibold">20 teams</strong> over two days of competitive basketball,
             uniting alumni, corporate, and visiting teams in support of the UNZA basketball programme.
           </p>
         </div>

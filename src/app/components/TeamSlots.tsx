@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const BG = '/gallery/jc-gellidon2.jpg';
+const BG = '/gallery/markus-spiske-BfphcCvhl6E-unsplash.jpg';
 
 interface Reg { division: 'male' | 'female'; teamName: string; }
 
@@ -23,7 +23,7 @@ export function TeamSlots() {
     };
   }, []);
 
-  const MALE_MAX = 10, FEMALE_MAX = 8;
+  const MALE_MAX = 12, FEMALE_MAX = 8;
   const maleTeams   = regs.filter(r => r.division === 'male');
   const femaleTeams = regs.filter(r => r.division === 'female');
 
