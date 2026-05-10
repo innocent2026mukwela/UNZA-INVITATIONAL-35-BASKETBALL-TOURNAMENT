@@ -3,7 +3,7 @@ import emailjs from '@emailjs/browser';
 
 const BG = '/gallery/christian-rebero-twahirwa-ggtFONGaWTo-unsplash.jpg';
 const REGISTRATION_DEADLINE = new Date('2026-06-15T23:59:59');
-const MALE_MAX   = 10;
+const MALE_MAX   = 12;
 const FEMALE_MAX = 8;
 
 interface FormState {
@@ -238,7 +238,7 @@ export function Registration() {
           <p className="font-['Inter'] text-white/60 leading-relaxed">
             {deadlinePassed
               ? 'The registration deadline of 15 June 2026 has passed. No further registrations are being accepted.'
-              : 'Both divisions are now full. All 18 team slots have been filled. See you on the court!'}
+              : 'Both divisions are now full. All 20 team slots have been filled. See you on the court!'}
           </p>
         </div>
       </div>

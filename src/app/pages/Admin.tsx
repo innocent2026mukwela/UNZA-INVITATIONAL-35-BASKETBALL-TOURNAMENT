@@ -100,40 +100,66 @@ export default function Admin() {
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="flex flex-col items-center mb-10">
-          <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#e8000d] mb-4"
-            style={{ boxShadow: '0 0 20px rgba(232,0,13,0.4)' }}>
-            <img src="/gallery/logo.jpeg" alt="UNZA Legacy" className="w-full h-full object-cover" />
+          <div className="relative mb-5">
+            <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-[#e8000d]"
+              style={{ boxShadow: '0 0 0 6px rgba(232,0,13,0.08), 0 0 40px rgba(232,0,13,0.45)' }}>
+              <img src="/gallery/logo.jpeg" alt="UNZA Invitational" className="w-full h-full object-cover" />
+            </div>
+            <span className="absolute -bottom-1 -right-1 w-6 h-6 bg-[#e8000d] rounded-full flex items-center justify-center"
+              style={{ boxShadow: '0 0 10px rgba(232,0,13,0.6)' }}>
+              <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd"/>
+              </svg>
+            </span>
           </div>
-          <h1 className="font-['Bebas_Neue'] text-3xl text-white tracking-wider">UNZA LEGACY</h1>
-          <p className="font-['Barlow_Condensed'] text-xs uppercase tracking-[3px] text-white/40 mt-1">Admin Dashboard</p>
+          <h1 className="font-['Bebas_Neue'] text-3xl tracking-[3px]">
+            <span className="text-white">UNZA </span>
+            <span className="text-[#e8000d]">INVITATIONAL</span>
+          </h1>
+          <p className="font-['Barlow_Condensed'] text-xs uppercase tracking-[4px] text-white/35 mt-1">35+ Basketball Tournament</p>
+          <div className="flex items-center gap-2 mt-3 px-3 py-1 rounded-full" style={{ background: 'rgba(232,0,13,0.08)', border: '1px solid rgba(232,0,13,0.2)' }}>
+            <span className="w-1.5 h-1.5 rounded-full bg-[#e8000d]" style={{ boxShadow: '0 0 6px #e8000d' }} />
+            <span className="font-['Barlow_Condensed'] text-[10px] uppercase tracking-[3px] text-[#e8000d] font-bold">Admin Access</span>
+          </div>
         </div>
 
         <form onSubmit={login} className="rounded-2xl p-8"
-          style={{ background: '#111', border: '1px solid rgba(232,0,13,0.18)', borderTop: '3px solid #e8000d' }}>
+          style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(232,0,13,0.18)', borderTop: '3px solid #e8000d', backdropFilter: 'blur(20px)' }}>
           <label className="font-['Barlow_Condensed'] uppercase tracking-[2px] text-xs text-white/50 mb-2 block">
             Admin Password
           </label>
-          <input
-            type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            placeholder="Enter password"
-            autoFocus
-            className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white font-['Inter'] text-sm outline-none mb-4
-              focus:border-[#e8000d]/60 focus:ring-1 focus:ring-[#e8000d]/20 placeholder:text-white/25 transition-all"
-          />
+          <div className="relative mb-4">
+            <input
+              type="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              placeholder="Enter password"
+              autoFocus
+              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white font-['Inter'] text-sm outline-none
+                focus:border-[#e8000d]/60 focus:ring-2 focus:ring-[#e8000d]/15 placeholder:text-white/20 transition-all pr-10"
+            />
+            <svg className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+            </svg>
+          </div>
           {loginError && (
-            <p className="font-['Inter'] text-red-400 text-xs mb-4">{loginError}</p>
+            <div className="flex items-center gap-2 mb-4 px-3 py-2.5 rounded-lg" style={{ background: 'rgba(232,0,13,0.08)', border: '1px solid rgba(232,0,13,0.25)' }}>
+              <svg className="w-3.5 h-3.5 text-[#e8000d] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd"/>
+              </svg>
+              <p className="font-['Inter'] text-red-400 text-xs">{loginError}</p>
+            </div>
           )}
           <button type="submit"
-            className="w-full py-3 bg-[#e8000d] text-white font-['Bebas_Neue'] tracking-[2px] rounded-lg hover:-translate-y-0.5 transition-all"
-            style={{ boxShadow: '0 4px 20px rgba(232,0,13,0.35)' }}>
-            LOGIN
+            className="w-full py-3.5 text-white font-['Bebas_Neue'] tracking-[3px] text-lg rounded-xl hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200"
+            style={{ background: 'linear-gradient(135deg,#c2000b 0%,#e8000d 100%)', boxShadow: '0 4px 24px rgba(232,0,13,0.4)' }}>
+            ENTER DASHBOARD
           </button>
         </form>
 
         <p className="text-center mt-6">
-          <a href="/" className="font-['Inter'] text-xs text-white/30 hover:text-white/60 transition-colors">
+          <a href="/" className="font-['Inter'] text-xs text-white/25 hover:text-white/55 transition-colors">
             ← Back to website
           </a>
         </p>
