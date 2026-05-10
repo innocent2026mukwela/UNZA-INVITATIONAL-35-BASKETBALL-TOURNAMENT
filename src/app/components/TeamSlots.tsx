@@ -28,8 +28,8 @@ export function TeamSlots() {
   const femaleTeams = regs.filter(r => r.division === 'female');
 
   const divisions = [
-    { name: "Men's Division",   emoji: '🏀', teams: maleTeams,  max: MALE_MAX },
-    { name: "Women's Division", emoji: '⭐', teams: femaleTeams, max: FEMALE_MAX },
+    { name: "Men's Division",   teams: maleTeams,  max: MALE_MAX },
+    { name: "Women's Division", teams: femaleTeams, max: FEMALE_MAX },
   ];
 
   return (
@@ -75,7 +75,6 @@ export function TeamSlots() {
                 <div className="flex items-center justify-between px-7 py-5"
                   style={{ background:'rgba(232,0,13,0.08)', borderBottom:'1px solid rgba(232,0,13,0.15)' }}>
                   <div className="flex items-center gap-3">
-                    <span className="text-2xl">{div.emoji}</span>
                     <h3 className="font-['Bebas_Neue'] text-2xl text-white tracking-wide">{div.name}</h3>
                   </div>
                   <span className={`font-['Barlow_Condensed'] font-bold text-xs uppercase tracking-[2px] px-3 py-1.5 rounded-full ${
@@ -140,8 +139,8 @@ export function TeamSlots() {
 
                 {/* CTA */}
                 {!full && (
-                  <div className="px-5 pb-5">
-                    <a href="#register" className="btn-primary w-full text-sm py-3 block text-center">
+                  <div className="px-5 pb-5 flex justify-center">
+                    <a href="#register" className="btn-primary text-xs px-6 py-2 rounded-full">
                       REGISTER FOR THIS DIVISION
                     </a>
                   </div>
