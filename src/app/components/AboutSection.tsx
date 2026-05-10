@@ -21,7 +21,7 @@ const cards = [
   },
   {
     num: '03', tag: 'Venue', title: 'UNZA Sports Hall',
-    desc: "All matches held at the UNZA Sports Hall in Lusaka — a premier basketball facility in Zambia's capital.",
+    desc: "All matches held at the UNZA Sports Hall and NASDEC in Lusaka — premier basketball facilities in Zambia's capital.",
     bg: '/gallery/tom-briskey-AddAnDkkovM-unsplash.jpg',
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -64,9 +64,9 @@ export function AboutSection() {
             <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#e8000d]" />
           </div>
           <p className="font-['Inter'] font-light text-white/70 text-center max-w-[600px] mx-auto leading-relaxed text-lg reveal">
-            The UNZA Alumni +35 Fundraiser Tournament unites{' '}
-            <strong className="text-white font-semibold">18 teams</strong> of seasoned alumni across two action-packed days,
-            raising funds for the UNZA Basketball programme while celebrating the legacy of the game.
+            The UNZA Invitational 35+ Tournament brings together{' '}
+            <strong className="text-white font-semibold">18 teams</strong> over two days of competitive basketball,
+            uniting alumni, corporate, and visiting teams in support of the UNZA basketball programme.
           </p>
         </div>
 

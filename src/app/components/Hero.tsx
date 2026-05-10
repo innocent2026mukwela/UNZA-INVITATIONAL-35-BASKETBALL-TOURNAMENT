@@ -24,7 +24,7 @@ export function Hero() {
         className="absolute inset-0 w-full h-full object-cover object-center scale-105"
         style={{ zIndex:0 }} />
 
-      {/* Layered overlays for depth */}
+      {/* Layered overlays */}
       <div className="absolute inset-0" style={{ zIndex:1,
         background:'linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.35) 35%, rgba(0,0,0,0.75) 100%)'
       }} />
@@ -46,7 +46,7 @@ export function Hero() {
         {/* Logo */}
         <div className="float w-32 h-32 mx-auto mb-8 rounded-full border-2 border-[#e8000d] overflow-hidden glow-pulse"
           style={{ boxShadow:'0 0 0 8px rgba(232,0,13,0.06), 0 0 60px rgba(232,0,13,0.4), 0 24px 80px rgba(0,0,0,0.7)' }}>
-          <img ref={logoRef} src="/gallery/logo.jpeg" alt="UNZA Alumni Logo"
+          <img ref={logoRef} src="/gallery/logo.jpeg" alt="UNZA Invitational Logo"
             className="w-full h-full object-cover transition-transform duration-100 ease-out" />
         </div>
 
@@ -54,7 +54,7 @@ export function Hero() {
         <div className="inline-flex items-center gap-3 mb-6 px-7 py-3 rounded-full"
           style={{ background:'rgba(232,0,13,0.12)', border:'2px solid rgba(232,0,13,0.5)', backdropFilter:'blur(8px)' }}>
           <span className="w-2 h-2 rounded-full bg-[#e8000d] inline-block flex-shrink-0" style={{ boxShadow:'0 0 8px #e8000d' }} />
-          <span className="font-['Barlow_Condensed'] tracking-[4px] text-white font-bold text-base uppercase">+35 Fundraiser Tournament</span>
+          <span className="font-['Barlow_Condensed'] tracking-[4px] text-white font-bold text-base uppercase">35+ Invitational Tournament</span>
           <span className="w-2 h-2 rounded-full bg-[#e8000d] inline-block flex-shrink-0" style={{ boxShadow:'0 0 8px #e8000d' }} />
         </div>
 
@@ -63,29 +63,29 @@ export function Hero() {
           <svg className="w-4 h-4 text-[#e8000d] flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
           </svg>
-          UNZA Sports Hall &nbsp;&bull;&nbsp; Lusaka, Zambia
+          UNZA Sports Hall &amp; NASDEC &nbsp;&bull;&nbsp; Lusaka, Zambia
         </div>
 
         {/* Main title */}
         <h1 className="font-['Bebas_Neue'] leading-[0.9] tracking-wider mb-6"
-          style={{ fontSize:'clamp(3.2rem,9vw,6rem)' }}>
-          <span className="gradient-text-animated">UNZA ALUMNI</span>
+          style={{ fontSize:'clamp(3rem,9vw,5.5rem)' }}>
+          <span className="gradient-text-animated">UNZA INVITATIONAL</span>
           <br />
-          <span className="text-white" style={{ textShadow:'0 4px 40px rgba(0,0,0,0.8)' }}>BASKETBALL</span>
+          <span className="text-white" style={{ textShadow:'0 4px 40px rgba(0,0,0,0.8)' }}>35+ BASKETBALL</span>
           <br />
-          <span className="text-white/90" style={{ textShadow:'0 4px 40px rgba(0,0,0,0.8)' }}>TOURNAMENT</span>
+          <span className="text-white/90" style={{ textShadow:'0 4px 40px rgba(0,0,0,0.8)' }}>TOURNAMENT 2026</span>
         </h1>
 
-        {/* Divider line */}
+        {/* Divider */}
         <div className="flex items-center justify-center gap-4 mb-6">
           <div className="h-px w-16 bg-gradient-to-r from-transparent to-[#e8000d]" />
-          <span className="font-['Barlow_Condensed'] text-[#e8000d] tracking-[6px] text-lg font-bold uppercase">5 &ndash; 6 July 2026</span>
+          <span className="font-['Barlow_Condensed'] text-[#e8000d] tracking-[6px] text-lg font-bold uppercase">4th &ndash; 5th July 2026</span>
           <div className="h-px w-16 bg-gradient-to-l from-transparent to-[#e8000d]" />
         </div>
 
-        {/* Subtext */}
-        <p className="font-['Inter'] font-light text-white/75 max-w-[560px] mx-auto mb-12 text-lg leading-relaxed">
-          {"Zambia's premier alumni basketball championship — where seasoned athletes compete with the fire of champions and the wisdom of experience."}
+        {/* Tagline */}
+        <p className="font-['Inter'] font-light text-white/80 max-w-[620px] mx-auto mb-12 text-lg leading-relaxed">
+          35+ years on. The fire still burns. Zambian and international veteran basketball players return to the court for two days of competition, camaraderie, and legacy.
         </p>
 
         {/* CTAs */}

@@ -2,6 +2,16 @@ const BG = '/gallery/tom-briskey-AddAnDkkovM-unsplash.jpg';
 
 const rows = [
   {
+    phase: 'Team Briefing',
+    dates: '27 May 2026',
+    details: 'Briefing session with all invited teams — rules, logistics, and tournament overview',
+    icon: (
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+    ),
+  },
+  {
     phase: 'Registration Deadline',
     dates: '15 June 2026',
     details: 'All team registrations and fees must be submitted',
@@ -12,18 +22,18 @@ const rows = [
     ),
   },
   {
-    phase: 'Draw & Team Briefing',
-    dates: '4 July 2026',
-    details: 'Captains meeting, bracket draw & rules orientation at UNZA Sports Hall',
+    phase: 'The Draw',
+    dates: '20 June 2026',
+    details: 'Bracket draw — team fixtures and group assignments confirmed',
     icon: (
       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h7" />
       </svg>
     ),
   },
   {
     phase: 'Day 1 — Group Stage',
-    dates: '5 July 2026',
+    dates: '4 July 2026',
     details: "Pool-stage games across men's and women's divisions — all 18 teams in action",
     icon: (
       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -33,7 +43,7 @@ const rows = [
   },
   {
     phase: 'Day 2 — Finals & Awards',
-    dates: '6 July 2026',
+    dates: '5 July 2026',
     details: 'Semi-finals, championship finals, awards ceremony & fundraising close',
     icon: (
       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -68,7 +78,7 @@ export function Schedule() {
             <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#e8000d]" />
           </div>
           <p className="font-['Barlow_Condensed'] font-semibold text-white/70 text-center tracking-[2px] reveal">
-            {'5 – 6 JULY 2026  ·  UNZA SPORTS HALL  ·  ALL TIMES IN CAT'}
+            {'4 – 5 JULY 2026  ·  UNZA SPORTS HALL & NASDEC  ·  ALL TIMES IN CAT'}
           </p>
         </div>
 
