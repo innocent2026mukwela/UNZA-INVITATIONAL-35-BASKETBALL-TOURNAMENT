@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-const HERO_BG = '/gallery/front-view-basketball-player-holding-ball.jpg';
+const HERO_BG = '/gallery/side-view-man-playing-basketball.jpg';
 
 export function Hero() {
   const logoRef = useRef<HTMLImageElement>(null);

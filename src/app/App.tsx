@@ -12,14 +12,14 @@ import { Sponsors }       from './components/Sponsors';
 import { Footer }         from './components/Footer';
 
 const gallery1 = [
-  { src:'/gallery/jc-gellidon-XmYSlYrupL8-unsplash.jpg',  quote:"Hard work beats talent when talent doesn't work hard.", author:'Tim Notke' },
-  { src:'/gallery/tom-briskey-AddAnDkkovM-unsplash.jpg',   quote:"The strength of the team is each individual member.",  author:'Phil Jackson' },
-  { src:'/gallery/stephen-baker-QAX5Ylx-lKo-unsplash.jpg', quote:"Excellence is not a singular act, but a habit.",       author:"Shaquille O'Neal" },
-  { src:'/gallery/kylie-osullivan-BfaBLVCBTI8-unsplash.jpg', quote:"Age is just a number. Greatness has no expiry date.", author:'UNZA Legacy' },
+  { src:'/gallery/front-view-basketball-player-holding-ball.jpg', quote:"Hard work beats talent when talent doesn't work hard.", author:'Tim Notke' },
+  { src:'/gallery/tom-briskey-AddAnDkkovM-unsplash.jpg',          quote:"The strength of the team is each individual member.",  author:'Phil Jackson' },
+  { src:'/gallery/stephen-baker-QAX5Ylx-lKo-unsplash.jpg',        quote:"Excellence is not a singular act, but a habit.",       author:"Shaquille O'Neal" },
+  { src:'/gallery/kylie-osullivan-BfaBLVCBTI8-unsplash.jpg',      quote:"Age is just a number. Greatness has no expiry date.", author:'UNZA Legacy' },
 ];
 
 const gallery2 = [
-  { src:'/gallery/christian-rebero-twahirwa-ggtFONGaWTo-unsplash.jpg', quote:"Champions aren't made in gyms — they're made from something deep inside.", author:'Muhammad Ali' },
+  { src:'/gallery/jason-leung2.jpg', quote:"Champions aren't made in gyms — they're made from something deep inside.", author:'Muhammad Ali' },
   { src:'/gallery/markus-spiske-BfphcCvhl6E-unsplash.jpg',             quote:"The older I get, the better I was.",                                       author:'Classic Saying' },
   { src:'/gallery/jason-leung-nM2WEy42Npg-unsplash.jpg',               quote:"Passion for the game doesn't age.",                                        author:'UNZA Legacy' },
   { src:'/gallery/side-view-man-playing-basketball.jpg',                quote:"The best years are still being played.",                                   author:'UNZA Legacy' },
