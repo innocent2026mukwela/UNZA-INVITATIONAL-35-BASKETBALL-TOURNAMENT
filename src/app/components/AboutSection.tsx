@@ -1,7 +1,7 @@
 const cards = [
   {
     num: '01', tag: "Men's Division", title: '12 Teams',
-    desc: "The finest men's 35+ alumni teams compete in a pool-stage and knockout format for championship glory.",
+    desc: "The finest men's 35+ alumni teams compete in a pool-stage and knockout format across two action-packed days.",
     bg: '/gallery/markus-spiske-BfphcCvhl6E-unsplash.jpg',
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -21,7 +21,7 @@ const cards = [
   },
   {
     num: '03', tag: 'Venue', title: 'UNZA Sports Hall',
-    desc: "All matches held at the UNZA Sports Hall and NASDEC in Lusaka — premier basketball facilities in Zambia's capital.",
+    desc: "All matches held at UNZA Sports Hall and NASDEC in Lusaka, Zambia.",
     bg: '/gallery/tom-briskey-AddAnDkkovM-unsplash.jpg',
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

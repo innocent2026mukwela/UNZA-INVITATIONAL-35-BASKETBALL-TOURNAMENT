@@ -45,9 +45,9 @@ export function Footer() {
             {/* Event details */}
             <div className="space-y-2">
               {[
-                { icon:'📅', text:'5 – 6 July 2026' },
-                { icon:'📍', text:'UNZA Sports Hall, Lusaka, Zambia' },
-                { icon:'🎯', text:'+35 Age Category · 18 Teams' },
+                { icon:'📅', text:'4 – 5 July 2026' },
+                { icon:'📍', text:'UNZA Sports Hall & NASDEC, Lusaka, Zambia' },
+                { icon:'🎯', text:'+35 Age Category · 20 Teams' },
               ].map(d => (
                 <div key={d.text} className="flex items-center gap-2.5">
                   <span className="text-sm">{d.icon}</span>

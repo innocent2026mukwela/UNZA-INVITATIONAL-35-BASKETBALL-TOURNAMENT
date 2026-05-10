@@ -1,6 +1,6 @@
 const stats = [
-  { number: '18',   label: 'Competing Teams',  icon: '🏀', sub: '10 Male · 8 Female' },
-  { number: '2',    label: 'Tournament Days',   icon: '📅', sub: '5 – 6 July 2026' },
+  { number: '20',   label: 'Competing Teams',  icon: '🏀', sub: '12 Male · 8 Female' },
+  { number: '2',    label: 'Tournament Days',   icon: '📅', sub: '4 – 5 July 2026' },
   { number: '35+',  label: 'Age Category',      icon: '⚡', sub: 'Alumni Veterans' },
   { number: 'K5K',  label: 'Registration Fee',  icon: '🏆', sub: 'Per Team Entry' },
 ];

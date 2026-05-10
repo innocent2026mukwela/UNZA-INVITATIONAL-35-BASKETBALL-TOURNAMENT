@@ -91,7 +91,7 @@ export default function App() {
       {/* Section divider */}
       <div className="h-px" style={{ background: 'linear-gradient(90deg,transparent,rgba(232,0,13,0.4),transparent)' }} />
 
-      <PhotoSlideshow photos={gallery2} title="Tournament Moments" subtitle="35 and above — experience meets passion." variant="slide" />
+      <PhotoSlideshow photos={gallery2} title="Built Different. Aged Better." subtitle="The fire doesn't go out — it just burns deeper." variant="slide" />
 
       {/* Section divider */}
       <div className="h-px" style={{ background: 'linear-gradient(90deg,transparent,rgba(232,0,13,0.4),transparent)' }} />

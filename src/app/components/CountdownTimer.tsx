@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 export function CountdownTimer() {
-  const target = new Date('2026-07-05T10:00:00').getTime();
+  const target = new Date('2026-07-04T10:00:00').getTime();
   const [time,    setTime]    = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [expired, setExpired] = useState(false);
 
@@ -47,7 +47,7 @@ export function CountdownTimer() {
                 <span className="w-2 h-2 rounded-full bg-[#e8000d]" style={{ boxShadow:'0 0 8px #e8000d' }} />
                 <span className="font-['Barlow_Condensed'] uppercase tracking-[4px] text-white font-bold text-sm">Tournament Countdown</span>
               </div>
-              <span className="font-['Barlow_Condensed'] text-white font-bold text-sm tracking-[3px] uppercase">5 July 2026 &middot; 10:00 CAT</span>
+              <span className="font-['Barlow_Condensed'] text-white font-bold text-sm tracking-[3px] uppercase">4 July 2026 &middot; 10:00 CAT</span>
             </div>
 
             {/* Units */}
@@ -88,7 +88,7 @@ export function CountdownTimer() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
-              <span className="font-['Barlow_Condensed'] text-white font-bold text-sm tracking-[3px] uppercase">UNZA Sports Hall, Lusaka, Zambia</span>
+              <span className="font-['Barlow_Condensed'] text-white font-bold text-sm tracking-[3px] uppercase">UNZA Sports Hall &amp; NASDEC, Lusaka, Zambia</span>
             </div>
           </div>
         )}
