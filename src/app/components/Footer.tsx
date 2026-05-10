@@ -142,6 +142,10 @@ export function Footer() {
                 {i < arr.length - 1 && <span className="text-white/15">·</span>}
               </span>
             ))}
+            <span className="text-white/15">·</span>
+            <a href="/admin" className="font-['Inter'] text-xs text-white/20 hover:text-white/50 transition-colors duration-200 px-3">
+              Admin
+            </a>
           </div>
         </div>
       </div>

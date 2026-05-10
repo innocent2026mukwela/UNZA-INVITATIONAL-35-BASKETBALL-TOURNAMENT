@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import emailjs from '@emailjs/browser';
 
 const BG = '/gallery/christian-rebero-twahirwa-ggtFONGaWTo-unsplash.jpg';
 const REGISTRATION_DEADLINE = new Date('2026-06-15T23:59:59');
@@ -110,6 +111,7 @@ export function Registration() {
   function submit(e: React.FormEvent) {
     e.preventDefault();
     if (formLocked || !validate()) return;
+
     const regsNow = getRegs();
     regsNow.push({
       division: form.division, teamName: form.teamName.trim(),
@@ -120,6 +122,27 @@ export function Registration() {
     });
     localStorage.setItem('unzaRegistrations', JSON.stringify(regsNow));
     window.dispatchEvent(new Event('unzaRegUpdated'));
+
+    // Send email via EmailJS
+    emailjs.send(
+      'service_ir7xqxn',
+      'template_4wc4ks9',
+      {
+        division:       form.division === 'male' ? "Men's Division" : "Women's Division",
+        team_name:      form.teamName.trim(),
+        team_abbr:      form.teamAbbr.trim(),
+        captain_name:   form.captainName.trim(),
+        coach_name:     form.coachName.trim(),
+        coach_phone:    form.coachPhone.trim(),
+        player_count:   form.playerCount,
+        players:        form.players.map((p, i) => `${i + 1}. ${p.trim()}`).join('\n'),
+        registered_at:  new Date().toLocaleString('en-GB', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' }),
+      },
+      'DWnEfFJ8wuI30d48Q'
+    ).catch(() => {
+      // Silent fail — registration is still saved locally
+    });
+
     setDone(true);
     window.scrollTo({ top: (document.getElementById('register')?.offsetTop ?? 0) - 80, behavior: 'smooth' });
   }
