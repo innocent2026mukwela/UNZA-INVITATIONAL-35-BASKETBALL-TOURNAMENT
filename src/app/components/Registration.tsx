@@ -13,6 +13,7 @@ interface FormState {
   captainName: string;
   coachName:   string;
   coachPhone:  string;
+  teamEmail:   string;
   playerCount: string;
   players:     string[];
   terms:       boolean;
@@ -28,7 +29,7 @@ function isDeadlinePassed() { return Date.now() > REGISTRATION_DEADLINE.getTime(
 export function Registration() {
   const blank: FormState = {
     division:'', teamName:'', teamAbbr:'', captainName:'',
-    coachName:'', coachPhone:'', playerCount:'', players:[], terms:false,
+    coachName:'', coachPhone:'', teamEmail:'', playerCount:'', players:[], terms:false,
   };
 
   const [form,           setForm]           = useState<FormState>(blank);
@@ -96,6 +97,8 @@ export function Registration() {
     if (!form.captainName.trim()) e.captainName = 'Captain name is required.';
     if (!form.coachName.trim())   e.coachName   = 'Coach name is required.';
     if (!form.coachPhone.trim())  e.coachPhone  = 'Phone number is required.';
+    if (!form.teamEmail.trim())   e.teamEmail   = 'Team email is required.';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.teamEmail)) e.teamEmail = 'Enter a valid email address.';
     const pc = parseInt(form.playerCount, 10);
     if (!form.playerCount.trim()) e.playerCount = 'Required.';
     else if (pc < 5 || pc > 15)  e.playerCount = 'Must be between 5 and 15.';
@@ -117,6 +120,7 @@ export function Registration() {
       division: form.division, teamName: form.teamName.trim(),
       teamAbbr: form.teamAbbr.trim(), captainName: form.captainName.trim(),
       coachName: form.coachName.trim(), coachPhone: form.coachPhone.trim(),
+      teamEmail: form.teamEmail.trim(),
       playerCount: form.playerCount, players: form.players.map(p => p.trim()),
       registeredAt: new Date().toISOString(),
     });
@@ -134,6 +138,7 @@ export function Registration() {
         captain_name:   form.captainName.trim(),
         coach_name:     form.coachName.trim(),
         coach_phone:    form.coachPhone.trim(),
+        team_email:     form.teamEmail.trim(),
         player_count:   form.playerCount,
         players:        form.players.map((p, i) => `${i + 1}. ${p.trim()}`).join('\n'),
         registered_at:  new Date().toLocaleString('en-GB', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' }),
@@ -350,14 +355,23 @@ export function Registration() {
                 {errMsg(errors.coachPhone)}
               </div>
               <div>
-                <label className={labelCls} htmlFor="playerCount">
-                  Number of Players * <span className="normal-case text-white/30 tracking-normal">(5–15, all aged 35+)</span>
-                </label>
-                <input id="playerCount" type="number" className={inputCls(!!errors.playerCount)}
-                  placeholder="5 – 15" min={5} max={15}
-                  value={form.playerCount} onChange={e => handlePlayerCountChange(e.target.value)} />
-                {errMsg(errors.playerCount)}
+                <label className={labelCls} htmlFor="teamEmail">Team Email Address *</label>
+                <input id="teamEmail" type="email" className={inputCls(!!errors.teamEmail)}
+                  placeholder="team@example.com"
+                  value={form.teamEmail} onChange={e => set('teamEmail', e.target.value)} />
+                {errMsg(errors.teamEmail)}
               </div>
+            </div>
+
+            {/* ── Player Count ── */}
+            <div className="mb-5">
+              <label className={labelCls} htmlFor="playerCount">
+                Number of Players * <span className="normal-case text-white/30 tracking-normal">(5–15, all aged 35+)</span>
+              </label>
+              <input id="playerCount" type="number" className={inputCls(!!errors.playerCount)}
+                placeholder="5 – 15" min={5} max={15}
+                value={form.playerCount} onChange={e => handlePlayerCountChange(e.target.value)} />
+              {errMsg(errors.playerCount)}
             </div>
           </div>
 
