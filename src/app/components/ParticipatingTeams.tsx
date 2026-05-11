@@ -13,6 +13,7 @@ const SEED_TEAMS: Team[] = [
   { teamName: 'Net Rippers',    division: 'male', logo: '/teams/net-rippers.png',      seed: true },
   { teamName: 'UNZA Legacy',    division: 'male', logo: '/teams/unza-legacy.png',      seed: true },
   { teamName: 'Bank of Zambia', division: 'male', logo: '/teams/Bank-of-zambia.png',   seed: true },
+  { teamName: 'Kitwe Madalas', division: 'male', logo: '/teams/kitwe-madalas.png',    seed: true },
 ];
 
 function TeamCard({ team }: { team: Team }) {
