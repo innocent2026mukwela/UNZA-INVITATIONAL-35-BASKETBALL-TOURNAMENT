@@ -3,7 +3,7 @@ import { supabase } from '../../lib/supabase';
 import type { Sponsor } from '../components/Sponsors';
 
 // ── Change this password to whatever you want ──────────────────────────
-const ADMIN_PASSWORD = 'UNZA2025';
+const ADMIN_PASSWORD = 'UNZA2026';
 
 interface Registration {
   id:           string;

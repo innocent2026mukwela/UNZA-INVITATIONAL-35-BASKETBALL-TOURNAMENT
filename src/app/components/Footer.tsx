@@ -28,14 +28,14 @@ export function Footer() {
             <div className="flex items-center gap-3 mb-5">
               <div className="flex-shrink-0 w-14 h-14 rounded-full overflow-hidden border-2 border-[#e8000d]"
                 style={{ boxShadow:'0 0 20px rgba(232,0,13,0.35)' }}>
-                <img src="/gallery/logo.jpeg" alt="UNZA Alumni" className="w-full h-full object-cover" />
+                <img src="/gallery/logo.jpeg" alt="UNZA Invitational" className="w-full h-full object-cover" />
               </div>
               <div>
                 <div className="font-['Bebas_Neue'] text-2xl tracking-[3px]">
                   <span className="text-white">UNZA </span>
-                  <span className="text-[#e8000d]">ALUMNI</span>
+                  <span className="text-[#e8000d]">INVITATIONAL</span>
                 </div>
-                <div className="font-['Barlow_Condensed'] text-[10px] tracking-[3px] text-white/40 uppercase">+35 Fundraiser Basketball Tournament</div>
+                <div className="font-['Barlow_Condensed'] text-[10px] tracking-[3px] text-white/40 uppercase">35+ Basketball Tournament 2026</div>
               </div>
             </div>
             <p className="font-['Inter'] text-sm text-white/60 leading-relaxed mb-6 max-w-sm">
