@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { getSponsors, type Sponsor } from '../components/Sponsors';
 
 // ── Change this password to whatever you want ──────────────────────────
 const ADMIN_PASSWORD = 'UNZA2025';
 
-interface Player { name: string; }
 interface Registration {
   division:    'male' | 'female';
   teamName:    string;
@@ -53,14 +53,47 @@ function exportCSV(regs: Registration[]) {
 }
 
 export default function Admin() {
-  const [authed,      setAuthed]      = useState(false);
-  const [password,    setPassword]    = useState('');
-  const [loginError,  setLoginError]  = useState('');
-  const [regs,        setRegs]        = useState<Registration[]>(getRegs());
+  const [authed,       setAuthed]       = useState(false);
+  const [password,     setPassword]     = useState('');
+  const [loginError,   setLoginError]   = useState('');
+  const [regs,         setRegs]         = useState<Registration[]>(getRegs());
   const [deleteTarget, setDeleteTarget] = useState<number | null>(null);
-  const [filter,      setFilter]      = useState<'all' | 'male' | 'female'>('all');
-  const [expandedRow, setExpandedRow] = useState<number | null>(null);
-  const [search,      setSearch]      = useState('');
+  const [filter,       setFilter]       = useState<'all' | 'male' | 'female'>('all');
+  const [expandedRow,  setExpandedRow]  = useState<number | null>(null);
+  const [search,       setSearch]       = useState('');
+  const [activeTab,    setActiveTab]    = useState<'registrations' | 'sponsors'>('registrations');
+
+  // ── Sponsors state ─────────────────────────────────────────────────────
+  const [sponsors,      setSponsors]      = useState<Sponsor[]>(getSponsors());
+  const [spName,        setSpName]        = useState('');
+  const [spTier,        setSpTier]        = useState<Sponsor['tier']>('Gold');
+  const [spPreview,     setSpPreview]     = useState('');
+  const [spDeleteTarget, setSpDeleteTarget] = useState<string | null>(null);
+  const spFileRef = useRef<HTMLInputElement>(null);
+
+  function handleSpFile(f: File) {
+    if (!f.type.startsWith('image/')) return;
+    const r = new FileReader();
+    r.onloadend = () => setSpPreview(r.result as string);
+    r.readAsDataURL(f);
+  }
+
+  function addSponsor() {
+    if (!spName.trim() || !spPreview) return;
+    const updated = [...sponsors, { id: Date.now().toString(), name: spName.trim(), logo: spPreview, tier: spTier }];
+    localStorage.setItem('unzaSponsors', JSON.stringify(updated));
+    window.dispatchEvent(new Event('unzaSponsorsUpdated'));
+    setSponsors(updated);
+    setSpName(''); setSpPreview(''); setSpTier('Gold');
+  }
+
+  function removeSponsor(id: string) {
+    const updated = sponsors.filter(s => s.id !== id);
+    localStorage.setItem('unzaSponsors', JSON.stringify(updated));
+    window.dispatchEvent(new Event('unzaSponsorsUpdated'));
+    setSponsors(updated);
+    setSpDeleteTarget(null);
+  }
 
   useEffect(() => {
     const load = () => setRegs(getRegs());
@@ -227,6 +260,101 @@ export default function Admin() {
           ))}
         </div>
 
+        {/* Tab switcher */}
+        <div className="flex gap-2 mb-8">
+          {(['registrations', 'sponsors'] as const).map(tab => (
+            <button key={tab} onClick={() => setActiveTab(tab)}
+              className="px-5 py-2.5 rounded-lg font-['Barlow_Condensed'] uppercase tracking-wider text-sm transition-all"
+              style={{
+                background: activeTab === tab ? '#e8000d' : 'rgba(255,255,255,0.04)',
+                color: activeTab === tab ? '#fff' : 'rgba(255,255,255,0.5)',
+                border: activeTab === tab ? 'none' : '1px solid rgba(255,255,255,0.1)',
+              }}>
+              {tab === 'registrations' ? `Registrations (${regs.length})` : `Sponsors (${sponsors.length})`}
+            </button>
+          ))}
+        </div>
+
+        {/* ── Sponsors Tab ── */}
+        {activeTab === 'sponsors' && (
+          <div>
+            {/* Add sponsor form */}
+            <div className="rounded-2xl p-6 mb-8" style={{ background: '#111', border: '1px solid rgba(232,0,13,0.15)', borderTop: '2px solid #e8000d' }}>
+              <p className="font-['Barlow_Condensed'] uppercase tracking-[3px] text-xs text-[#e8000d] mb-5 font-bold">Add New Sponsor</p>
+              <div className="flex flex-col sm:flex-row gap-4 items-end">
+                {/* Logo upload */}
+                <div>
+                  <p className="font-['Barlow_Condensed'] uppercase tracking-[2px] text-xs text-white/40 mb-2">Logo</p>
+                  <div onClick={() => spFileRef.current?.click()}
+                    className="w-20 h-20 rounded-xl flex items-center justify-center cursor-pointer transition-all hover:border-[#e8000d]/60 overflow-hidden"
+                    style={{ border: '2px dashed rgba(255,255,255,0.15)', background: 'rgba(255,255,255,0.03)' }}>
+                    <input ref={spFileRef} type="file" accept="image/*" className="sr-only"
+                      onChange={e => { if (e.target.files?.[0]) handleSpFile(e.target.files[0]); }} />
+                    {spPreview
+                      ? <img src={spPreview} alt="" className="w-full h-full object-contain p-1" />
+                      : <svg className="w-7 h-7 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
+                        </svg>}
+                  </div>
+                </div>
+                {/* Name */}
+                <div className="flex-1">
+                  <p className="font-['Barlow_Condensed'] uppercase tracking-[2px] text-xs text-white/40 mb-2">Sponsor Name</p>
+                  <input type="text" value={spName} onChange={e => setSpName(e.target.value)}
+                    placeholder="e.g. Zambia Breweries"
+                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white font-['Inter'] text-sm outline-none focus:border-[#e8000d]/50 placeholder:text-white/20 transition-all" />
+                </div>
+                {/* Tier */}
+                <div>
+                  <p className="font-['Barlow_Condensed'] uppercase tracking-[2px] text-xs text-white/40 mb-2">Tier</p>
+                  <select value={spTier} onChange={e => setSpTier(e.target.value as Sponsor['tier'])}
+                    className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white font-['Inter'] text-sm outline-none focus:border-[#e8000d]/50 transition-all">
+                    <option value="Platinum">Platinum</option>
+                    <option value="Gold">Gold</option>
+                    <option value="Silver">Silver</option>
+                  </select>
+                </div>
+                {/* Add button */}
+                <button onClick={addSponsor} disabled={!spName.trim() || !spPreview}
+                  className="px-6 py-3 rounded-lg font-['Bebas_Neue'] tracking-[2px] text-white transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                  style={{ background: '#e8000d', boxShadow: '0 4px 16px rgba(232,0,13,0.3)' }}>
+                  ADD
+                </button>
+              </div>
+            </div>
+
+            {/* Sponsor list */}
+            {sponsors.length === 0 ? (
+              <div className="text-center py-20 rounded-2xl" style={{ border: '1px solid rgba(255,255,255,0.06)' }}>
+                <p className="font-['Bebas_Neue'] text-3xl text-white/20 tracking-wider">NO SPONSORS YET</p>
+                <p className="font-['Inter'] text-sm text-white/25 mt-2">Upload a logo above to add your first sponsor.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                {sponsors.map(sp => (
+                  <div key={sp.id} className="group relative rounded-2xl p-4 flex flex-col items-center gap-3 transition-all"
+                    style={{ background: '#111', border: '1px solid rgba(232,0,13,0.12)' }}>
+                    <img src={sp.logo} alt={sp.name} className="w-16 h-16 object-contain rounded-lg" />
+                    <div className="text-center">
+                      <p className="font-['Inter'] text-xs text-white font-medium">{sp.name}</p>
+                      <p className="font-['Barlow_Condensed'] text-[10px] uppercase tracking-[2px] text-[#e8000d] mt-0.5">{sp.tier}</p>
+                    </div>
+                    <button onClick={() => setSpDeleteTarget(sp.id)}
+                      className="absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all text-red-400 hover:bg-red-400/15">
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ── Registrations Tab ── */}
+        {activeTab === 'registrations' && (<>
+
         {/* Filter + Search */}
         <div className="flex flex-col sm:flex-row gap-3 mb-6">
           <div className="flex gap-2">
@@ -362,9 +490,36 @@ export default function Admin() {
             })}
           </div>
         )}
+        </>)}
+
       </main>
 
-      {/* Delete confirmation modal */}
+      {/* Sponsor delete modal */}
+      {spDeleteTarget !== null && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-6"
+          style={{ background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(8px)' }}>
+          <div className="w-full max-w-sm rounded-2xl p-8 text-center"
+            style={{ background: '#111', border: '1px solid rgba(232,0,13,0.3)', borderTop: '3px solid #e8000d' }}>
+            <h3 className="font-['Bebas_Neue'] text-2xl text-white tracking-wider mb-2">REMOVE SPONSOR?</h3>
+            <p className="font-['Bebas_Neue'] text-xl text-[#e8000d] tracking-wider mb-6">
+              {sponsors.find(s => s.id === spDeleteTarget)?.name}
+            </p>
+            <div className="flex gap-3">
+              <button onClick={() => setSpDeleteTarget(null)}
+                className="flex-1 py-3 rounded-lg font-['Bebas_Neue'] tracking-[2px] text-white/60 hover:text-white transition-colors"
+                style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.04)' }}>
+                CANCEL
+              </button>
+              <button onClick={() => removeSponsor(spDeleteTarget)}
+                className="flex-1 py-3 rounded-lg font-['Bebas_Neue'] tracking-[2px] text-white bg-red-600 hover:bg-red-500 transition-colors">
+                YES, REMOVE
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Team delete confirmation modal */}
       {deleteTarget !== null && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-6"
           style={{ background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(8px)' }}>

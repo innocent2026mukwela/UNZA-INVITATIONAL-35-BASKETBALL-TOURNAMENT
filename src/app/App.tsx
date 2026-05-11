@@ -1,15 +1,16 @@
 import { useEffect } from 'react';
-import { Navbar }         from './components/Navbar';
-import { Hero }           from './components/Hero';
-import { CountdownTimer } from './components/CountdownTimer';
-import { StatsBar }       from './components/StatsBar';
-import { AboutSection }   from './components/AboutSection';
-import { PhotoSlideshow } from './components/PhotoSlideshow';
-import { TeamSlots }      from './components/TeamSlots';
-import { Schedule }       from './components/Schedule';
-import { Registration }   from './components/Registration';
-import { Sponsors }       from './components/Sponsors';
-import { Footer }         from './components/Footer';
+import { Navbar }             from './components/Navbar';
+import { Hero }               from './components/Hero';
+import { CountdownTimer }     from './components/CountdownTimer';
+import { StatsBar }           from './components/StatsBar';
+import { AboutSection }       from './components/AboutSection';
+import { PhotoSlideshow }     from './components/PhotoSlideshow';
+import { ParticipatingTeams } from './components/ParticipatingTeams';
+import { TeamSlots }          from './components/TeamSlots';
+import { Schedule }           from './components/Schedule';
+import { Registration }       from './components/Registration';
+import { Sponsors }           from './components/Sponsors';
+import { Footer }             from './components/Footer';
 
 const gallery1 = [
   { src:'/gallery/stephen-baker-QAX5Ylx-lKo-unsplash.jpg', quote:"Hard work beats talent when talent doesn't work hard.", author:'Tim Notke' },
@@ -82,6 +83,11 @@ export default function App() {
       <div className="h-px" style={{ background: 'linear-gradient(90deg,transparent,rgba(232,0,13,0.4),transparent)' }} />
 
       <TeamSlots />
+
+      {/* Section divider */}
+      <div className="h-px" style={{ background: 'linear-gradient(90deg,transparent,rgba(232,0,13,0.4),transparent)' }} />
+
+      <ParticipatingTeams />
 
       {/* Section divider */}
       <div className="h-px" style={{ background: 'linear-gradient(90deg,transparent,rgba(232,0,13,0.4),transparent)' }} />

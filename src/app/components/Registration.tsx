@@ -122,6 +122,7 @@ export function Registration() {
       coachName: form.coachName.trim(), coachPhone: form.coachPhone.trim(),
       teamEmail: form.teamEmail.trim(),
       playerCount: form.playerCount, players: form.players.map(p => p.trim()),
+      logo: preview || '',
       registeredAt: new Date().toISOString(),
     });
     localStorage.setItem('unzaRegistrations', JSON.stringify(regsNow));
@@ -208,10 +209,12 @@ export function Registration() {
             </svg>
           </div>
           <h2 className="font-['Bebas_Neue'] text-5xl text-[#e8000d] tracking-wider mb-3">Registration Submitted!</h2>
-          <p className="font-['Inter'] text-white/70 mb-8 leading-relaxed">
+          <p className="font-['Inter'] text-white/70 mb-2 leading-relaxed">
             Welcome, <span className="text-white font-semibold">{form.teamName}</span>!
             Your squad of <span className="text-white font-semibold">{form.playerCount} players</span> has been received.
-            We will confirm your spot shortly.
+          </p>
+          <p className="font-['Inter'] text-white/50 text-sm mb-8 leading-relaxed">
+            Our team will be in touch with you at <span className="text-[#e8000d] font-medium">{form.teamEmail}</span> with further details regarding your registration, payment, and tournament logistics.
           </p>
           <button type="button"
             onClick={() => { setDone(false); setForm(blank); setPreview(''); setFile(null); setErrors({}); }}
