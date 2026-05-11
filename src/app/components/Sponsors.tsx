@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { supabase } from '../../lib/supabase';
 
 export interface Sponsor { id: string; name: string; logo: string; tier: 'Platinum' | 'Gold' | 'Silver'; }
 
@@ -8,18 +9,23 @@ const tiers = [
   { tier: 'Silver'   as const, color: 'rgba(255,255,255,0.8)', glow: 'rgba(255,255,255,0.1)', border: 'rgba(255,255,255,0.2)', bg: 'rgba(255,255,255,0.03)' },
 ];
 
-export function getSponsors(): Sponsor[] {
-  try { return JSON.parse(localStorage.getItem('unzaSponsors') || '[]'); }
-  catch { return []; }
+export async function getSponsors(): Promise<Sponsor[]> {
+  const { data } = await supabase.from('sponsors').select('*').order('created_at');
+  return (data as Sponsor[]) || [];
 }
 
 export function Sponsors() {
-  const [sponsors, setSponsors] = useState<Sponsor[]>(getSponsors());
+  const [sponsors, setSponsors] = useState<Sponsor[]>([]);
 
   useEffect(() => {
-    const load = () => setSponsors(getSponsors());
-    window.addEventListener('unzaSponsorsUpdated', load);
-    return () => window.removeEventListener('unzaSponsorsUpdated', load);
+    async function load() {
+      const data = await getSponsors();
+      setSponsors(data);
+    }
+    load();
+    const handler = () => load();
+    window.addEventListener('unzaSponsorsUpdated', handler);
+    return () => window.removeEventListener('unzaSponsorsUpdated', handler);
   }, []);
 
   return (

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { supabase } from '../../lib/supabase';
 
 interface Team {
   teamName: string;
@@ -12,12 +13,6 @@ const SEED_TEAMS: Team[] = [
   { teamName: 'Net Rippers',  division: 'male', logo: '/teams/net-rippers.png',  seed: true },
   { teamName: 'UNZA Legacy',  division: 'male', logo: '/teams/unza-legacy.png',  seed: true },
 ];
-
-function getRegs(): Team[] {
-  try {
-    return JSON.parse(localStorage.getItem('unzaRegistrations') || '[]');
-  } catch { return []; }
-}
 
 function TeamCard({ team }: { team: Team }) {
   const [imgOk, setImgOk] = useState(true);
@@ -59,18 +54,23 @@ function DivisionRow({ label, teams }: { label: string; teams: Team[] }) {
 }
 
 export function ParticipatingTeams() {
-  const [regs, setRegs] = useState<Team[]>(getRegs());
+  const [regs, setRegs] = useState<Team[]>([]);
 
   useEffect(() => {
-    const load = () => setRegs(getRegs());
-    window.addEventListener('unzaRegUpdated', load);
-    return () => window.removeEventListener('unzaRegUpdated', load);
+    async function load() {
+      const { data } = await supabase.from('registrations').select('team_name, division, logo');
+      if (data) setRegs(data.map(r => ({ teamName: r.team_name, division: r.division, logo: r.logo || '' })));
+    }
+    load();
+    const handler = () => load();
+    window.addEventListener('unzaRegUpdated', handler);
+    return () => window.removeEventListener('unzaRegUpdated', handler);
   }, []);
 
   const registered = regs.map(r => ({
     teamName: r.teamName,
     division: r.division,
-    logo: (r as any).logo || '',
+    logo: r.logo || '',
   }));
 
   const allTeams = [...SEED_TEAMS, ...registered];

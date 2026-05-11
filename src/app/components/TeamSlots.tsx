@@ -1,26 +1,22 @@
 import { useState, useEffect } from 'react';
+import { supabase } from '../../lib/supabase';
 
 const BG = '/gallery/markus-spiske-BfphcCvhl6E-unsplash.jpg';
 
-interface Reg { division: 'male' | 'female'; teamName: string; }
-
-function getRegs(): Reg[] {
-  try { return JSON.parse(localStorage.getItem('unzaRegistrations') || '[]'); }
-  catch { return []; }
-}
+interface Reg { division: 'male' | 'female'; team_name: string; }
 
 export function TeamSlots() {
   const [regs, setRegs] = useState<Reg[]>([]);
 
   useEffect(() => {
-    const load = () => setRegs(getRegs());
+    async function load() {
+      const { data } = await supabase.from('registrations').select('division, team_name');
+      if (data) setRegs(data as Reg[]);
+    }
     load();
-    window.addEventListener('storage', load);
-    window.addEventListener('unzaRegUpdated', load);
-    return () => {
-      window.removeEventListener('storage', load);
-      window.removeEventListener('unzaRegUpdated', load);
-    };
+    const handler = () => load();
+    window.addEventListener('unzaRegUpdated', handler);
+    return () => window.removeEventListener('unzaRegUpdated', handler);
   }, []);
 
   const MALE_MAX = 12, FEMALE_MAX = 8;
@@ -123,7 +119,7 @@ export function TeamSlots() {
                           {i + 1}
                         </span>
                         <span className={`font-['Barlow_Condensed'] uppercase tracking-wide text-sm font-bold ${team ? 'text-white' : 'text-white/75'}`}>
-                          {team ? team.teamName : `Open Slot ${i + 1}`}
+                          {team ? team.team_name : `Open Slot ${i + 1}`}
                         </span>
                       </div>
                       <span className={`font-['Barlow_Condensed'] text-xs uppercase tracking-wider font-bold px-2.5 py-1 rounded-full ${

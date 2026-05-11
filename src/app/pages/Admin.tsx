@@ -1,29 +1,22 @@
 import { useState, useEffect, useRef } from 'react';
-import { getSponsors, type Sponsor } from '../components/Sponsors';
+import { supabase } from '../../lib/supabase';
+import type { Sponsor } from '../components/Sponsors';
 
 // ── Change this password to whatever you want ──────────────────────────
 const ADMIN_PASSWORD = 'UNZA2025';
 
 interface Registration {
-  division:    'male' | 'female';
-  teamName:    string;
-  teamAbbr:    string;
-  captainName: string;
-  coachName:   string;
-  coachPhone:  string;
-  playerCount: string;
-  players:     string[];
+  id:           string;
+  division:     'male' | 'female';
+  teamName:     string;
+  teamAbbr:     string;
+  captainName:  string;
+  coachName:    string;
+  coachPhone:   string;
+  teamEmail:    string;
+  playerCount:  string;
+  players:      string[];
   registeredAt: string;
-}
-
-function getRegs(): Registration[] {
-  try { return JSON.parse(localStorage.getItem('unzaRegistrations') || '[]'); }
-  catch { return []; }
-}
-
-function saveRegs(regs: Registration[]) {
-  localStorage.setItem('unzaRegistrations', JSON.stringify(regs));
-  window.dispatchEvent(new Event('unzaRegUpdated'));
 }
 
 function formatDate(iso: string) {
@@ -36,11 +29,11 @@ function formatDate(iso: string) {
 }
 
 function exportCSV(regs: Registration[]) {
-  const headers = ['Division','Team Name','Abbr','Captain','Coach','Phone','Players','Registered At'];
+  const headers = ['Division','Team Name','Abbr','Captain','Coach','Phone','Email','Players','Registered At'];
   const rows = regs.map(r => [
     r.division === 'male' ? "Men's" : "Women's",
     r.teamName, r.teamAbbr, r.captainName,
-    r.coachName, r.coachPhone,
+    r.coachName, r.coachPhone, r.teamEmail,
     (r.players || []).join(' | '),
     formatDate(r.registeredAt),
   ]);
@@ -53,23 +46,42 @@ function exportCSV(regs: Registration[]) {
 }
 
 export default function Admin() {
-  const [authed,       setAuthed]       = useState(false);
-  const [password,     setPassword]     = useState('');
-  const [loginError,   setLoginError]   = useState('');
-  const [regs,         setRegs]         = useState<Registration[]>(getRegs());
-  const [deleteTarget, setDeleteTarget] = useState<number | null>(null);
-  const [filter,       setFilter]       = useState<'all' | 'male' | 'female'>('all');
-  const [expandedRow,  setExpandedRow]  = useState<number | null>(null);
-  const [search,       setSearch]       = useState('');
-  const [activeTab,    setActiveTab]    = useState<'registrations' | 'sponsors'>('registrations');
+  const [authed,         setAuthed]         = useState(false);
+  const [password,       setPassword]       = useState('');
+  const [loginError,     setLoginError]     = useState('');
+  const [regs,           setRegs]           = useState<Registration[]>([]);
+  const [deleteTarget,   setDeleteTarget]   = useState<string | null>(null);
+  const [filter,         setFilter]         = useState<'all' | 'male' | 'female'>('all');
+  const [expandedRow,    setExpandedRow]    = useState<string | null>(null);
+  const [search,         setSearch]         = useState('');
+  const [activeTab,      setActiveTab]      = useState<'registrations' | 'sponsors'>('registrations');
 
   // ── Sponsors state ─────────────────────────────────────────────────────
-  const [sponsors,      setSponsors]      = useState<Sponsor[]>(getSponsors());
-  const [spName,        setSpName]        = useState('');
-  const [spTier,        setSpTier]        = useState<Sponsor['tier']>('Gold');
-  const [spPreview,     setSpPreview]     = useState('');
+  const [sponsors,       setSponsors]       = useState<Sponsor[]>([]);
+  const [spName,         setSpName]         = useState('');
+  const [spTier,         setSpTier]         = useState<Sponsor['tier']>('Gold');
+  const [spPreview,      setSpPreview]      = useState('');
   const [spDeleteTarget, setSpDeleteTarget] = useState<string | null>(null);
   const spFileRef = useRef<HTMLInputElement>(null);
+
+  async function loadRegs() {
+    const { data } = await supabase.from('registrations').select('*').order('registered_at');
+    if (data) setRegs(data.map(r => ({
+      id: r.id, division: r.division,
+      teamName: r.team_name, teamAbbr: r.team_abbr,
+      captainName: r.captain_name, coachName: r.coach_name,
+      coachPhone: r.coach_phone, teamEmail: r.team_email,
+      playerCount: r.player_count, players: r.players || [],
+      registeredAt: r.registered_at,
+    })));
+  }
+
+  async function loadSponsors() {
+    const { data } = await supabase.from('sponsors').select('*').order('created_at');
+    if (data) setSponsors(data as Sponsor[]);
+  }
+
+  useEffect(() => { loadRegs(); loadSponsors(); }, []);
 
   function handleSpFile(f: File) {
     if (!f.type.startsWith('image/')) return;
@@ -78,28 +90,18 @@ export default function Admin() {
     r.readAsDataURL(f);
   }
 
-  function addSponsor() {
+  async function addSponsor() {
     if (!spName.trim() || !spPreview) return;
-    const updated = [...sponsors, { id: Date.now().toString(), name: spName.trim(), logo: spPreview, tier: spTier }];
-    localStorage.setItem('unzaSponsors', JSON.stringify(updated));
-    window.dispatchEvent(new Event('unzaSponsorsUpdated'));
-    setSponsors(updated);
+    await supabase.from('sponsors').insert({ name: spName.trim(), logo: spPreview, tier: spTier });
     setSpName(''); setSpPreview(''); setSpTier('Gold');
+    loadSponsors();
   }
 
-  function removeSponsor(id: string) {
-    const updated = sponsors.filter(s => s.id !== id);
-    localStorage.setItem('unzaSponsors', JSON.stringify(updated));
-    window.dispatchEvent(new Event('unzaSponsorsUpdated'));
-    setSponsors(updated);
+  async function removeSponsor(id: string) {
+    await supabase.from('sponsors').delete().eq('id', id);
     setSpDeleteTarget(null);
+    loadSponsors();
   }
-
-  useEffect(() => {
-    const load = () => setRegs(getRegs());
-    window.addEventListener('unzaRegUpdated', load);
-    return () => window.removeEventListener('unzaRegUpdated', load);
-  }, []);
 
   function login(e: React.FormEvent) {
     e.preventDefault();
@@ -107,12 +109,11 @@ export default function Admin() {
     else { setLoginError('Incorrect password. Try again.'); }
   }
 
-  function deleteTeam(index: number) {
-    const updated = regs.filter((_, i) => i !== index);
-    saveRegs(updated);
-    setRegs(updated);
+  async function deleteTeam(id: string) {
+    await supabase.from('registrations').delete().eq('id', id);
     setDeleteTarget(null);
     setExpandedRow(null);
+    loadRegs();
   }
 
   const filtered = regs
@@ -405,14 +406,13 @@ export default function Admin() {
 
             {/* Rows */}
             {filtered.map((reg, displayIdx) => {
-              const realIdx = regs.indexOf(reg);
-              const isExpanded = expandedRow === realIdx;
+              const isExpanded = expandedRow === reg.id;
               return (
-                <div key={realIdx} style={{ borderBottom: displayIdx < filtered.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
+                <div key={reg.id} style={{ borderBottom: displayIdx < filtered.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
                   {/* Main row */}
                   <div
                     className="grid grid-cols-12 gap-2 px-5 py-4 items-center cursor-pointer transition-colors hover:bg-white/3"
-                    onClick={() => setExpandedRow(isExpanded ? null : realIdx)}>
+                    onClick={() => setExpandedRow(isExpanded ? null : reg.id)}>
                     <div className="col-span-1 font-['Bebas_Neue'] text-xl text-[#e8000d]">{displayIdx + 1}</div>
                     <div className="col-span-2">
                       <span className="inline-block px-2 py-0.5 rounded-full font-['Barlow_Condensed'] text-xs uppercase tracking-wider"
@@ -442,7 +442,7 @@ export default function Admin() {
                     <div className="col-span-1 flex items-center justify-center gap-2">
                       {/* Expand */}
                       <button
-                        onClick={e => { e.stopPropagation(); setExpandedRow(isExpanded ? null : realIdx); }}
+                        onClick={e => { e.stopPropagation(); setExpandedRow(isExpanded ? null : reg.id); }}
                         title="View roster"
                         className="w-7 h-7 rounded flex items-center justify-center text-white/40 hover:text-white hover:bg-white/8 transition-all">
                         <svg className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -451,7 +451,7 @@ export default function Admin() {
                       </button>
                       {/* Delete */}
                       <button
-                        onClick={e => { e.stopPropagation(); setDeleteTarget(realIdx); }}
+                        onClick={e => { e.stopPropagation(); setDeleteTarget(reg.id); }}
                         title="Remove team"
                         className="w-7 h-7 rounded flex items-center justify-center text-red-400/50 hover:text-red-400 hover:bg-red-400/10 transition-all">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -536,7 +536,7 @@ export default function Admin() {
               You are about to remove
             </p>
             <p className="font-['Bebas_Neue'] text-xl text-[#e8000d] tracking-wider mb-6">
-              {regs[deleteTarget]?.teamName}
+              {regs.find(r => r.id === deleteTarget)?.teamName}
             </p>
             <p className="font-['Inter'] text-xs text-white/35 mb-8 leading-relaxed">
               This will permanently delete the registration and reopen the slot on the public site.
@@ -547,7 +547,7 @@ export default function Admin() {
                 style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.04)' }}>
                 CANCEL
               </button>
-              <button onClick={() => deleteTeam(deleteTarget)}
+              <button onClick={() => deleteTarget && deleteTeam(deleteTarget)}
                 className="flex-1 py-3 rounded-lg font-['Bebas_Neue'] tracking-[2px] text-white bg-red-600 hover:bg-red-500 transition-colors"
                 style={{ boxShadow: '0 4px 16px rgba(220,38,38,0.4)' }}>
                 YES, REMOVE

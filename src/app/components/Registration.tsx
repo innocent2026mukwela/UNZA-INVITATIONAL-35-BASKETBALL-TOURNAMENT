@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
+import { supabase } from '../../lib/supabase';
 
 const BG = '/gallery/christian-rebero-twahirwa-ggtFONGaWTo-unsplash.jpg';
 const REGISTRATION_DEADLINE = new Date('2026-06-15T23:59:59');
@@ -20,10 +21,6 @@ interface FormState {
 }
 type Errors = Partial<Record<keyof FormState | 'logo' | `player_${number}`, string>>;
 
-function getRegs() {
-  try { return JSON.parse(localStorage.getItem('unzaRegistrations') || '[]'); }
-  catch { return []; }
-}
 function isDeadlinePassed() { return Date.now() > REGISTRATION_DEADLINE.getTime(); }
 
 export function Registration() {
@@ -38,23 +35,29 @@ export function Registration() {
   const [preview,        setPreview]        = useState('');
   const [file,           setFile]           = useState<File | null>(null);
   const [done,           setDone]           = useState(false);
-  const [regs,           setRegs]           = useState(getRegs());
+  const [maleCount,      setMaleCount]      = useState(0);
+  const [femaleCount,    setFemaleCount]    = useState(0);
   const [deadlinePassed, setDeadlinePassed] = useState(isDeadlinePassed());
   const fileRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    async function loadCounts() {
+      const { data } = await supabase.from('registrations').select('division');
+      if (data) {
+        setMaleCount(data.filter(r => r.division === 'male').length);
+        setFemaleCount(data.filter(r => r.division === 'female').length);
+      }
+    }
+    loadCounts();
+    const handler = () => loadCounts();
+    window.addEventListener('unzaRegUpdated', handler);
+    return () => window.removeEventListener('unzaRegUpdated', handler);
+  }, []);
 
   useEffect(() => {
     const id = setInterval(() => setDeadlinePassed(isDeadlinePassed()), 60000);
     return () => clearInterval(id);
   }, []);
-
-  useEffect(() => {
-    const load = () => setRegs(getRegs());
-    window.addEventListener('unzaRegUpdated', load);
-    return () => window.removeEventListener('unzaRegUpdated', load);
-  }, []);
-
-  const maleCount   = regs.filter((r: { division: string }) => r.division === 'male').length;
-  const femaleCount = regs.filter((r: { division: string }) => r.division === 'female').length;
   const maleFull    = maleCount   >= MALE_MAX;
   const femaleFull  = femaleCount >= FEMALE_MAX;
   const formLocked  = deadlinePassed || (maleFull && femaleFull);
@@ -111,21 +114,23 @@ export function Registration() {
     return Object.keys(e).length === 0;
   }
 
-  function submit(e: React.FormEvent) {
+  async function submit(e: React.FormEvent) {
     e.preventDefault();
     if (formLocked || !validate()) return;
 
-    const regsNow = getRegs();
-    regsNow.push({
-      division: form.division, teamName: form.teamName.trim(),
-      teamAbbr: form.teamAbbr.trim(), captainName: form.captainName.trim(),
-      coachName: form.coachName.trim(), coachPhone: form.coachPhone.trim(),
-      teamEmail: form.teamEmail.trim(),
-      playerCount: form.playerCount, players: form.players.map(p => p.trim()),
-      logo: preview || '',
-      registeredAt: new Date().toISOString(),
+    const { error } = await supabase.from('registrations').insert({
+      division:     form.division,
+      team_name:    form.teamName.trim(),
+      team_abbr:    form.teamAbbr.trim(),
+      captain_name: form.captainName.trim(),
+      coach_name:   form.coachName.trim(),
+      coach_phone:  form.coachPhone.trim(),
+      team_email:   form.teamEmail.trim(),
+      player_count: form.playerCount,
+      players:      form.players.map(p => p.trim()),
+      logo:         preview || '',
     });
-    localStorage.setItem('unzaRegistrations', JSON.stringify(regsNow));
+    if (error) { alert('Submission failed. Please try again.'); return; }
     window.dispatchEvent(new Event('unzaRegUpdated'));
 
     // Send email via EmailJS
