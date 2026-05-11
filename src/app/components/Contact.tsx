@@ -1,82 +1,50 @@
-import { useState } from 'react';
-import emailjs from '@emailjs/browser';
+const CONTACT_PHOTO = '/contact/organiser.jpg';
+
+const details = [
+  {
+    icon: (
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+      </svg>
+    ),
+    label: 'Email',
+    value: 'events@unzabasketballalumini.org',
+    href: 'mailto:events@unzabasketballalumini.org',
+  },
+  {
+    icon: (
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+      </svg>
+    ),
+    label: 'Phone',
+    value: '0975 491 210',
+    href: 'tel:+260975491210',
+  },
+  {
+    icon: (
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+      </svg>
+    ),
+    label: 'Venue',
+    value: 'UNZA Sports Hall & NASDEC, Lusaka, Zambia',
+    href: null,
+  },
+  {
+    icon: (
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+      </svg>
+    ),
+    label: 'Tournament Dates',
+    value: '4 – 5 July 2026',
+    href: null,
+  },
+];
 
 export function Contact() {
-  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
-  const [status, setStatus] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
-
-  const set = (k: keyof typeof form, v: string) => setForm(f => ({ ...f, [k]: v }));
-
-  async function submit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!form.name || !form.email || !form.message) return;
-    setStatus('sending');
-    try {
-      await emailjs.send(
-        'service_ir7xqxn',
-        'template_4wc4ks9',
-        {
-          from_name:    form.name,
-          from_email:   form.email,
-          subject:      form.subject || 'General Enquiry',
-          message:      form.message,
-          team_name:    form.name,
-          division:     'Enquiry',
-          team_abbr:    '',
-          captain_name: form.name,
-          coach_name:   '',
-          coach_phone:  '',
-          team_email:   form.email,
-          player_count: '',
-          players:      '',
-          registered_at: new Date().toLocaleString('en-GB'),
-        },
-        'DWnEfFJ8wuI30d48Q'
-      );
-      setStatus('done');
-      setForm({ name: '', email: '', subject: '', message: '' });
-    } catch {
-      setStatus('error');
-    }
-  }
-
-  const inputCls = 'w-full rounded-xl px-4 py-3.5 text-white font-[\'Inter\'] text-sm outline-none transition-all duration-200 placeholder:text-white/25 border border-white/10 bg-white/5 hover:bg-white/7 focus:border-[#e8000d]/50 focus:bg-white/8 focus:ring-2 focus:ring-[#e8000d]/15';
-  const labelCls = "font-['Barlow_Condensed'] uppercase tracking-[2px] text-xs text-white/55 mb-2 block font-semibold";
-
-  const details = [
-    {
-      icon: (
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-        </svg>
-      ),
-      label: 'Email',
-      value: 'events@unzabasketballalumini.org',
-      href: 'mailto:events@unzabasketballalumini.org',
-    },
-    {
-      icon: (
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-        </svg>
-      ),
-      label: 'Venue',
-      value: 'UNZA Sports Hall & NASDEC, Lusaka, Zambia',
-      href: null,
-    },
-    {
-      icon: (
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-        </svg>
-      ),
-      label: 'Tournament Dates',
-      value: '4 – 5 July 2026',
-      href: null,
-    },
-  ];
-
   return (
     <section id="contact" className="py-28 px-6 bg-[#080808]">
       <div className="max-w-6xl mx-auto">
@@ -98,14 +66,14 @@ export function Contact() {
             <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#e8000d]" />
           </div>
           <p className="font-['Inter'] font-light text-white/60 max-w-md mx-auto text-base reveal">
-            Have a question about the tournament? We'd love to hear from you.
+            Have a question about the tournament? Reach out to us directly.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 reveal">
 
           {/* Contact details */}
-          <div className="lg:col-span-2 flex flex-col gap-5">
+          <div className="lg:col-span-2 flex flex-col gap-4">
             {details.map(d => (
               <div key={d.label} className="flex items-start gap-4 p-5 rounded-2xl"
                 style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(232,0,13,0.12)' }}>
@@ -124,7 +92,7 @@ export function Contact() {
 
             {/* Facebook */}
             <a href="https://www.facebook.com/profile.php?id=61589247851887" target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-4 p-5 rounded-2xl group transition-all duration-200 hover:border-[#e8000d]/30"
+              className="flex items-center gap-4 p-5 rounded-2xl group transition-all duration-200"
               style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(232,0,13,0.12)' }}>
               <div className="flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center text-[#e8000d]"
                 style={{ background: 'rgba(232,0,13,0.1)', border: '1px solid rgba(232,0,13,0.2)' }}>
@@ -139,57 +107,30 @@ export function Contact() {
             </a>
           </div>
 
-          {/* Contact form */}
+          {/* Photo frame — replace /contact/organiser.jpg to show the photo */}
           <div className="lg:col-span-3">
-            {status === 'done' ? (
-              <div className="h-full flex flex-col items-center justify-center text-center rounded-2xl p-12"
-                style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(232,0,13,0.2)', borderTop: '3px solid #e8000d' }}>
-                <div className="w-16 h-16 rounded-full bg-[#e8000d] flex items-center justify-center mb-5"
-                  style={{ boxShadow: '0 0 40px rgba(232,0,13,0.5)' }}>
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7"/>
+            <div className="w-full h-full min-h-[400px] rounded-2xl overflow-hidden relative"
+              style={{ border: '1px solid rgba(232,0,13,0.2)', background: 'rgba(255,255,255,0.02)' }}>
+              <img
+                src={CONTACT_PHOTO}
+                alt="Tournament Organiser"
+                className="w-full h-full object-cover object-center"
+                onError={e => (e.currentTarget.style.display = 'none')}
+              />
+              {/* Placeholder shown until photo is uploaded */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
+                style={{ background: 'rgba(0,0,0,0.5)' }}>
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4"
+                  style={{ background: 'rgba(232,0,13,0.1)', border: '1px solid rgba(232,0,13,0.3)' }}>
+                  <svg className="w-8 h-8 text-[#e8000d]/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                   </svg>
                 </div>
-                <h3 className="font-['Bebas_Neue'] text-3xl text-white tracking-wider mb-2">Message Sent!</h3>
-                <p className="font-['Inter'] text-white/55 text-sm mb-6">We'll get back to you as soon as possible.</p>
-                <button type="button" onClick={() => setStatus('idle')}
-                  className="btn-ghost px-8 py-2.5 text-sm">Send Another</button>
+                <p className="font-['Barlow_Condensed'] uppercase tracking-[3px] text-white/25 text-xs">Photo Coming Soon</p>
               </div>
-            ) : (
-              <form onSubmit={submit} className="rounded-2xl p-8"
-                style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.06)', borderTop: '3px solid #e8000d' }}>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
-                  <div>
-                    <label className={labelCls}>Your Name *</label>
-                    <input type="text" className={inputCls} placeholder="Full name"
-                      value={form.name} onChange={e => set('name', e.target.value)} required />
-                  </div>
-                  <div>
-                    <label className={labelCls}>Email Address *</label>
-                    <input type="email" className={inputCls} placeholder="you@example.com"
-                      value={form.email} onChange={e => set('email', e.target.value)} required />
-                  </div>
-                </div>
-                <div className="mb-5">
-                  <label className={labelCls}>Subject</label>
-                  <input type="text" className={inputCls} placeholder="What is this about?"
-                    value={form.subject} onChange={e => set('subject', e.target.value)} />
-                </div>
-                <div className="mb-6">
-                  <label className={labelCls}>Message *</label>
-                  <textarea rows={5} className={`${inputCls} resize-none`} placeholder="Your message..."
-                    value={form.message} onChange={e => set('message', e.target.value)} required />
-                </div>
-                {status === 'error' && (
-                  <p className="font-['Inter'] text-red-400 text-xs mb-4">Something went wrong. Please try emailing us directly.</p>
-                )}
-                <button type="submit" disabled={status === 'sending'}
-                  className="btn-primary w-full py-4 text-base disabled:opacity-60 disabled:cursor-not-allowed">
-                  {status === 'sending' ? 'SENDING...' : 'SEND MESSAGE'}
-                </button>
-              </form>
-            )}
+            </div>
           </div>
+
         </div>
       </div>
     </section>
