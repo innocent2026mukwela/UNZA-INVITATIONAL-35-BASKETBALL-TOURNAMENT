@@ -10,6 +10,7 @@ import { TeamSlots }          from './components/TeamSlots';
 import { Schedule }           from './components/Schedule';
 import { Registration }       from './components/Registration';
 import { Sponsors }           from './components/Sponsors';
+import { Contact }            from './components/Contact';
 import { Footer }             from './components/Footer';
 
 const gallery1 = [
@@ -103,6 +104,11 @@ export default function App() {
       <div className="h-px" style={{ background: 'linear-gradient(90deg,transparent,rgba(232,0,13,0.4),transparent)' }} />
 
       <Registration />
+
+      {/* Section divider */}
+      <div className="h-px" style={{ background: 'linear-gradient(90deg,transparent,rgba(232,0,13,0.4),transparent)' }} />
+
+      <Contact />
 
       {/* Sponsors + Footer — one shared background */}
       <div className="h-px" style={{ background: 'linear-gradient(90deg,transparent,rgba(232,0,13,0.5),transparent)' }} />
