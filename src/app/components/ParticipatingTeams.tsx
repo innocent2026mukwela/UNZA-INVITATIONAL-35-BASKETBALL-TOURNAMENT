@@ -9,9 +9,10 @@ interface Team {
 }
 
 const SEED_TEAMS: Team[] = [
-  { teamName: 'SMB',          division: 'male', logo: '/teams/smb.png',          seed: true },
-  { teamName: 'Net Rippers',  division: 'male', logo: '/teams/net-rippers.png',  seed: true },
-  { teamName: 'UNZA Legacy',  division: 'male', logo: '/teams/unza-legacy.png',  seed: true },
+  { teamName: 'SMB',            division: 'male', logo: '/teams/smb.png',              seed: true },
+  { teamName: 'Net Rippers',    division: 'male', logo: '/teams/net-rippers.png',      seed: true },
+  { teamName: 'UNZA Legacy',    division: 'male', logo: '/teams/unza-legacy.png',      seed: true },
+  { teamName: 'Bank of Zambia', division: 'male', logo: '/teams/Bank-of-zambia.png',   seed: true },
 ];
 
 function TeamCard({ team }: { team: Team }) {
