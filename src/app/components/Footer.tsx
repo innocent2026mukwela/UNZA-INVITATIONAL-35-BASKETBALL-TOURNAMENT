@@ -133,7 +133,7 @@ export function Footer() {
       <div style={{ borderTop:'1px solid rgba(255,255,255,0.05)' }}>
         <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col md:flex-row justify-between items-center gap-3">
           <p className="font-['Inter'] text-xs text-white/35">
-            &copy; {new Date().getFullYear()} UNZA Alumni Basketball Tournament. All rights reserved.
+            &copy; {new Date().getFullYear()} UNZA Invitational 35+ Basketball Tournament. All rights reserved.
           </p>
           <div className="flex items-center gap-1">
             {['Privacy Policy','Terms of Service','Tournament Rules'].map((t, i, arr) => (

@@ -123,7 +123,7 @@ export function Contact() {
             ))}
 
             {/* Facebook */}
-            <a href="https://www.facebook.com/profile.php?id=61589247851887" target="_blank" rel="noreferrer"
+            <a href="https://www.facebook.com/profile.php?id=61589247851887" target="_blank" rel="noopener noreferrer"
               className="flex items-center gap-4 p-5 rounded-2xl group transition-all duration-200 hover:border-[#e8000d]/30"
               style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(232,0,13,0.12)' }}>
               <div className="flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center text-[#e8000d]"
@@ -134,7 +134,7 @@ export function Contact() {
               </div>
               <div>
                 <p className="font-['Barlow_Condensed'] text-[10px] uppercase tracking-[3px] text-white/35 mb-1">Facebook</p>
-                <p className="font-['Inter'] text-sm text-white/75 group-hover:text-white transition-colors">UNZA Alumni Basketball</p>
+                <p className="font-['Inter'] text-sm text-white/75 group-hover:text-white transition-colors">UNZA Invitational 35+ Basketball Tournament</p>
               </div>
             </a>
           </div>
@@ -152,7 +152,7 @@ export function Contact() {
                 </div>
                 <h3 className="font-['Bebas_Neue'] text-3xl text-white tracking-wider mb-2">Message Sent!</h3>
                 <p className="font-['Inter'] text-white/55 text-sm mb-6">We'll get back to you as soon as possible.</p>
-                <button onClick={() => setStatus('idle')}
+                <button type="button" onClick={() => setStatus('idle')}
                   className="btn-ghost px-8 py-2.5 text-sm">Send Another</button>
               </div>
             ) : (
