@@ -31,7 +31,7 @@ const cards = [
     ),
   },
   {
-    num: '04', tag: 'Fundraising', title: 'For a Cause',
+    num: '04', tag: 'Fundraising', title: 'Fundraising',
     desc: 'All proceeds go directly to the UNZA Basketball programme. K5,000 per team. Compete and make a difference.',
     bg: '/gallery/stephen-baker-QAX5Ylx-lKo-unsplash.jpg',
     icon: (
