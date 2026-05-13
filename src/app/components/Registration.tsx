@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
 import { supabase } from '../../lib/supabase';
 
-const BG = '/gallery/christian-rebero-twahirwa-ggtFONGaWTo-unsplash.jpg';
+const BG = '/gallery/tom-briskey-AddAnDkkovM-unsplash.jpg';
 const REGISTRATION_DEADLINE = new Date('2026-06-15T23:59:59');
 const MALE_MAX   = 12;
 const FEMALE_MAX = 8;
@@ -214,10 +214,10 @@ export function Registration() {
           <h2 className="font-['Bebas_Neue'] text-5xl text-[#e8000d] tracking-wider mb-3">Registration Submitted!</h2>
           <p className="font-['Inter'] text-white/70 mb-2 leading-relaxed">
             Welcome, <span className="text-white font-semibold">{form.teamName}</span>!
-            Your squad of <span className="text-white font-semibold">{form.playerCount} players</span> has been received.
           </p>
-          <p className="font-['Inter'] text-white/50 text-sm mb-8 leading-relaxed">
-            Our team will be in touch with you at <span className="text-[#e8000d] font-medium">{form.teamEmail}</span> with further details regarding your registration, payment, and tournament logistics.
+          <p className="font-['Inter'] text-white/60 text-sm mb-8 leading-relaxed">
+            Please ensure that you provide a verified team list before{' '}
+            <span className="text-white font-semibold">15th June, 2026</span>.
           </p>
           <button type="button"
             onClick={() => { setDone(false); setForm(blank); setPreview(''); setFile(null); setErrors({}); }}
