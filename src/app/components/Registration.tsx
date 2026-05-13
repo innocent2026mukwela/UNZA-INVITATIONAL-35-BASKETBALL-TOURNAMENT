@@ -105,9 +105,7 @@ export function Registration() {
     const pc = parseInt(form.playerCount, 10);
     if (!form.playerCount.trim()) e.playerCount = 'Required.';
     else if (pc < 5 || pc > 15)  e.playerCount = 'Must be between 5 and 15.';
-    else form.players.forEach((name, i) => {
-      if (!name.trim()) e[`player_${i}` as `player_${number}`] = 'Required.';
-    });
+    // player name validation disabled — roster list hidden until closer to deadline
     if (!file)       e.logo  = 'Please upload your team logo.';
     if (!form.terms) e.terms = 'You must agree to the rules to continue.';
     setErrors(e);
@@ -383,36 +381,7 @@ export function Registration() {
             </div>
           </div>
 
-          {/* ── Player Roster ── */}
-          {rosterCount > 0 && (
-            <div className="px-8 pb-0 mb-5">
-              <div className="flex items-center justify-between mb-3">
-                <p className={labelCls}>Player Roster *</p>
-                <span className="font-['Barlow_Condensed'] text-xs text-[#e8000d] uppercase tracking-[2px] font-bold">
-                  {rosterCount} Players
-                </span>
-              </div>
-              <div className="rounded-xl overflow-hidden"
-                style={{ border:'1px solid rgba(232,0,13,0.15)', background:'rgba(0,0,0,0.3)' }}>
-                {form.players.map((name, i) => (
-                  <div key={i} className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-white/3"
-                    style={{ borderBottom: i < rosterCount - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
-                    <span className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center font-['Bebas_Neue'] text-xs"
-                      style={{ background:'rgba(232,0,13,0.15)', border:'1px solid rgba(232,0,13,0.25)', color:'#e8000d' }}>
-                      {i + 1}
-                    </span>
-                    <input type="text"
-                      className={`flex-1 bg-transparent outline-none font-['Inter'] text-sm text-white placeholder:text-white/25 ${errors[`player_${i}` as `player_${number}`] ? 'placeholder:text-red-400/50' : ''}`}
-                      placeholder={`Player ${i + 1} — full name`}
-                      value={name} onChange={e => setPlayer(i, e.target.value)} />
-                    {errors[`player_${i}` as `player_${number}`] && (
-                      <span className="text-red-400 text-xs flex-shrink-0 font-medium">Required</span>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+          {/* ── Player Roster — temporarily hidden, re-enable before deadline ── */}
 
           {/* ── Logo upload ── */}
           <div className="px-8 pb-0 mb-5">
