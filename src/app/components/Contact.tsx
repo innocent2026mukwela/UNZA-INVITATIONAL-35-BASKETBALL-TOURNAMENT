@@ -8,8 +8,8 @@ const details = [
       </svg>
     ),
     label: 'Email',
-    value: 'events@unzabasketballalumini.org',
-    href: 'mailto:events@unzabasketballalumini.org',
+    value: 'events@unzabasketballalumni.org',
+    href: 'mailto:events@unzabasketballalumni.org',
   },
   {
     icon: (

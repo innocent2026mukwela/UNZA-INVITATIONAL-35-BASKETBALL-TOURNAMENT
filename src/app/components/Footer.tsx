@@ -84,7 +84,7 @@ export function Footer() {
               <span className="w-4 h-px bg-[#e8000d]" /> Get In Touch
             </h4>
             <address className="not-italic space-y-4 mb-8">
-              <a href="mailto:events@unzabasketballalumini.org"
+              <a href="mailto:events@unzabasketballalumni.org"
                 className="flex items-start gap-3 group">
                 <span className="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center mt-0.5 transition-all duration-200 group-hover:bg-[#e8000d]"
                   style={{ background:'rgba(232,0,13,0.12)', border:'1px solid rgba(232,0,13,0.25)' }}>
@@ -95,7 +95,7 @@ export function Footer() {
                 <div>
                   <div className="font-['Barlow_Condensed'] text-[10px] tracking-[3px] text-white/35 uppercase mb-0.5">Email</div>
                   <div className="font-['Inter'] text-sm text-[#e8000d] group-hover:text-[#ff4444] transition-colors duration-200">
-                    events@unzabasketballalumini.org
+                    events@unzabasketballalumni.org
                   </div>
                 </div>
               </a>
