@@ -128,7 +128,7 @@ export function Registration() {
       players:      form.players.map(p => p.trim()),
       logo:         preview || '',
     });
-    if (error) { alert('Submission failed. Please try again.'); return; }
+    if (error) { console.error('Supabase insert error:', error); alert(`Submission failed: ${error.message}`); return; }
     window.dispatchEvent(new Event('unzaRegUpdated'));
 
     // Send email via EmailJS
