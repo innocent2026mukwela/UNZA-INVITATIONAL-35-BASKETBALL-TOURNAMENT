@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router';
 import { supabase } from '../../lib/supabase';
 import type { TeamPlayer } from '../../lib/supabase';
+import { flagForCountry } from '../../lib/nations';
 
 interface TeamRow {
   id: string;
@@ -12,6 +13,7 @@ interface TeamRow {
   coach_name: string;
   division: 'male' | 'female';
   team_group: 'A' | 'B' | 'C' | null;
+  country: string | null;
 }
 
 function PlayerCard({ player }: { player: TeamPlayer }) {
@@ -140,7 +142,13 @@ export default function TeamProfile() {
               <h1 className="font-['Bebas_Neue'] text-5xl tracking-wider uppercase mb-2 text-white">
                 {team.team_name}
               </h1>
-              <p className="font-['Barlow_Condensed'] text-sm text-white/40 tracking-[3px] uppercase mb-8">{team.team_abbr}</p>
+              <div className="flex items-center justify-center gap-2 mb-8">
+                <p className="font-['Barlow_Condensed'] text-sm text-white/40 tracking-[3px] uppercase">{team.team_abbr}</p>
+                {team.country && flagForCountry(team.country) && (
+                  <img src={flagForCountry(team.country)} alt={team.country} title={team.country}
+                    className="w-5 h-3.5 object-cover rounded-sm ring-1 ring-white/20" />
+                )}
+              </div>
 
               <div className="flex items-center justify-center gap-3 mb-8">
                 <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#e8000d]" />

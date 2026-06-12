@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../lib/supabase';
 import type { Sponsor } from '../components/Sponsors';
 import type { TeamPlayer } from '../../lib/supabase';
+import { NATIONS, flagForCountry } from '../../lib/nations';
 
 // ── Change this password to whatever you want ──────────────────────────
 const ADMIN_PASSWORD = 'UNZA2026';
@@ -18,6 +19,7 @@ interface Registration {
   playerCount:  string;
   players:      string[];
   teamGroup:    'A' | 'B' | 'C' | null;
+  country:      string | null;
   accessCode:   string | null;
   registeredAt: string;
 }
@@ -96,6 +98,7 @@ export default function Admin() {
       coachPhone: r.coach_phone, teamEmail: r.team_email,
       playerCount: r.player_count, players: r.players || [],
       teamGroup: r.team_group ?? null,
+      country: r.country ?? null,
       accessCode: r.access_code ?? null,
       registeredAt: r.registered_at,
     })));
@@ -153,6 +156,11 @@ export default function Admin() {
 
   async function updateGroup(id: string, group: 'A' | 'B' | 'C' | '') {
     await supabase.from('registrations').update({ team_group: group || null }).eq('id', id);
+    loadRegs();
+  }
+
+  async function updateCountry(id: string, country: string) {
+    await supabase.from('registrations').update({ country: country || null }).eq('id', id);
     loadRegs();
   }
 
@@ -461,7 +469,13 @@ export default function Admin() {
                     onClick={() => setExpandedRow(isExpanded ? null : reg.id)}>
                     <div className="hidden md:block md:col-span-1 font-['Bebas_Neue'] text-xl text-[#e8000d]">{displayIdx + 1}</div>
                     <div className="col-span-2 order-1 md:order-none md:col-span-2">
-                      <p className="font-['Inter'] text-sm text-white font-medium truncate">{reg.teamName}</p>
+                      <div className="flex items-center gap-1.5">
+                        {reg.country && flagForCountry(reg.country) && (
+                          <img src={flagForCountry(reg.country)} alt={reg.country} title={reg.country}
+                            className="w-4 h-3 object-cover rounded-sm ring-1 ring-white/15 flex-shrink-0" />
+                        )}
+                        <p className="font-['Inter'] text-sm text-white font-medium truncate">{reg.teamName}</p>
+                      </div>
                       <p className="font-['Barlow_Condensed'] text-xs text-white/35 tracking-wider">{reg.teamAbbr}</p>
                       {reg.accessCode && (
                         <span className="inline-block mt-1 px-1.5 py-0.5 rounded font-['Bebas_Neue'] text-[11px] tracking-[2px] text-[#e8000d]"
@@ -470,6 +484,18 @@ export default function Admin() {
                           {reg.accessCode}
                         </span>
                       )}
+                      <select
+                        value={reg.country ?? ''}
+                        onClick={e => e.stopPropagation()}
+                        onChange={e => updateCountry(reg.id, e.target.value)}
+                        className="block mt-1.5 bg-white/5 border border-white/10 rounded px-1.5 py-0.5 text-[11px] text-white/70 outline-none focus:border-[#e8000d]/50"
+                        title="Assign nationality"
+                      >
+                        <option value="">No Nationality</option>
+                        {NATIONS.map(n => (
+                          <option key={n.code} value={n.name}>{n.name}</option>
+                        ))}
+                      </select>
                     </div>
                     <div className="col-span-1 order-2 md:order-none md:col-span-2">
                       <p className="md:hidden font-['Barlow_Condensed'] uppercase tracking-[2px] text-[10px] text-white/30 mb-1">Division</p>

@@ -18,6 +18,7 @@ export interface Registration {
   players: string[];
   logo: string;
   team_group?: 'A' | 'B' | 'C' | null;
+  country?: string | null;
   access_code?: string | null;
   registered_at?: string;
 }

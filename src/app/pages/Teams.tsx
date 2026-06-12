@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
 import { supabase } from '../../lib/supabase';
+import { flagForCountry } from '../../lib/nations';
 
 interface TeamRow {
   id: string;
@@ -9,6 +10,7 @@ interface TeamRow {
   logo: string;
   captain_name: string;
   team_group: 'A' | 'B' | 'C' | null;
+  country: string | null;
 }
 
 const GROUPS: ('A' | 'B' | 'C')[] = ['A', 'B', 'C'];
@@ -36,7 +38,13 @@ function TeamCard({ team }: { team: TeamRow }) {
         <p className="font-['Barlow_Condensed'] uppercase tracking-[2px] text-sm font-bold text-white truncate group-hover:text-[#e8000d] transition-colors">
           {team.team_name}
         </p>
-        <p className="font-['Inter'] text-xs text-white/40 truncate">{team.team_abbr}</p>
+        <div className="flex items-center gap-1.5 mt-0.5">
+          <p className="font-['Inter'] text-xs text-white/40 truncate">{team.team_abbr}</p>
+          {team.country && flagForCountry(team.country) && (
+            <img src={flagForCountry(team.country)} alt={team.country} title={team.country}
+              className="w-4 h-3 object-cover rounded-sm ring-1 ring-white/15 flex-shrink-0" />
+          )}
+        </div>
       </div>
       <svg className="w-4 h-4 text-white/20 group-hover:text-[#e8000d] group-hover:translate-x-1 transition-all flex-shrink-0"
         fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -1,12 +1,7 @@
 import { useEffect, useRef } from 'react';
+import { NATIONS } from '../../lib/nations';
 
 const HERO_BG = '/gallery/side-view-man-playing-basketball.jpg';
-
-const NATIONS = [
-  { code: 'zm', name: 'Zambia',  flag: '/flags/zambia.png' },
-  { code: 'mw', name: 'Malawi',  flag: '/flags/malawi.png' },
-  { code: 'cd', name: 'DRC',     flag: '/flags/drc.png' },
-];
 
 export function Hero() {
   const logoRef = useRef<HTMLImageElement>(null);
