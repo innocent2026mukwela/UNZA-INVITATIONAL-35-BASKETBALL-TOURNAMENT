@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../lib/supabase';
 import type { Sponsor } from '../components/Sponsors';
+import type { TeamPlayer } from '../../lib/supabase';
 
 // ── Change this password to whatever you want ──────────────────────────
 const ADMIN_PASSWORD = 'UNZA2026';
@@ -59,6 +60,7 @@ export default function Admin() {
   const [password,       setPassword]       = useState('');
   const [loginError,     setLoginError]     = useState('');
   const [regs,           setRegs]           = useState<Registration[]>([]);
+  const [teamPlayers,    setTeamPlayers]    = useState<Record<string, TeamPlayer[]>>({});
   const [deleteTarget,   setDeleteTarget]   = useState<string | null>(null);
   const [filter,         setFilter]         = useState<'all' | 'male' | 'female'>('all');
   const [expandedRow,    setExpandedRow]    = useState<string | null>(null);
@@ -104,7 +106,17 @@ export default function Admin() {
     if (data) setSponsors(data as Sponsor[]);
   }
 
-  useEffect(() => { loadRegs(); loadSponsors(); }, []);
+  async function loadTeamPlayers() {
+    const { data } = await supabase.from('team_players').select('*').order('sort_order');
+    if (!data) return;
+    const grouped: Record<string, TeamPlayer[]> = {};
+    for (const p of data as TeamPlayer[]) {
+      (grouped[p.registration_id] ||= []).push(p);
+    }
+    setTeamPlayers(grouped);
+  }
+
+  useEffect(() => { loadRegs(); loadSponsors(); loadTeamPlayers(); }, []);
 
   function handleSpFile(f: File) {
     if (!f.type.startsWith('image/')) return;
@@ -537,6 +549,40 @@ export default function Admin() {
                           <p className="font-['Inter'] text-xs text-white/30 col-span-full">No player names recorded.</p>
                         )}
                       </div>
+
+                      {/* Captain-managed player profiles */}
+                      <p className="font-['Barlow_Condensed'] uppercase tracking-[2px] text-xs text-white/35 mt-5 mb-3 pt-4"
+                        style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                        Captain-Managed Player Profiles — {(teamPlayers[reg.id] || []).length}
+                      </p>
+                      {(teamPlayers[reg.id] || []).length > 0 ? (
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2">
+                          {teamPlayers[reg.id].map(p => (
+                            <div key={p.id} className="flex items-center gap-2 px-3 py-2 rounded-lg"
+                              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                              <span className="w-7 h-7 rounded-full overflow-hidden flex items-center justify-center flex-shrink-0"
+                                style={{ background: 'rgba(232,0,13,0.15)' }}>
+                                {p.photo ? (
+                                  <img src={p.photo} alt={p.name} className="w-full h-full object-cover" />
+                                ) : (
+                                  <svg className="w-3.5 h-3.5 text-[#e8000d]/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                  </svg>
+                                )}
+                              </span>
+                              <div className="min-w-0">
+                                <p className="font-['Inter'] text-xs text-white/75 truncate">{p.name}</p>
+                                {p.profession && (
+                                  <p className="font-['Inter'] text-[11px] text-[#e8000d] truncate">{p.profession}</p>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="font-['Inter'] text-xs text-white/30">No player profiles added by captain yet.</p>
+                      )}
 
                       {/* Captain access code */}
                       <div className="flex items-center gap-3 mt-4 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
