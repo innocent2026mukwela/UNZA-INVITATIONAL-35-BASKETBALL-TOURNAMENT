@@ -73,7 +73,7 @@ export default function Teams() {
     async function load() {
       const { data } = await supabase
         .from('registrations')
-        .select('id, team_name, team_abbr, logo, captain_name, team_group')
+        .select('*')
         .eq('division', 'male')
         .order('registered_at');
       setTeams((data as TeamRow[]) || []);

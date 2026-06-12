@@ -23,7 +23,7 @@ export default function TeamProfile() {
     async function load() {
       const { data } = await supabase
         .from('registrations')
-        .select('id, team_name, team_abbr, logo, captain_name, coach_name, division, team_group')
+        .select('*')
         .eq('id', teamId)
         .maybeSingle();
       setTeam(data as TeamRow | null);
