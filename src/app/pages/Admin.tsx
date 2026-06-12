@@ -74,8 +74,20 @@ export default function Admin() {
   const spFileRef = useRef<HTMLInputElement>(null);
 
   async function loadRegs() {
-    const { data } = await supabase.from('registrations').select('*').order('registered_at');
-    if (data) setRegs(data.map(r => ({
+    let { data } = await supabase.from('registrations').select('*').order('registered_at');
+    if (!data) return;
+
+    // Ensure every team has a unique captain access code
+    const missingCodes = data.filter(r => !r.access_code);
+    if (missingCodes.length > 0) {
+      await Promise.all(missingCodes.map(r =>
+        supabase.from('registrations').update({ access_code: generateCode() }).eq('id', r.id)
+      ));
+      const refreshed = await supabase.from('registrations').select('*').order('registered_at');
+      if (refreshed.data) data = refreshed.data;
+    }
+
+    setRegs(data.map(r => ({
       id: r.id, division: r.division,
       teamName: r.team_name, teamAbbr: r.team_abbr,
       captainName: r.captain_name, coachName: r.coach_name,
@@ -462,6 +474,13 @@ export default function Admin() {
                     <div className="col-span-2">
                       <p className="font-['Inter'] text-sm text-white font-medium truncate">{reg.teamName}</p>
                       <p className="font-['Barlow_Condensed'] text-xs text-white/35 tracking-wider">{reg.teamAbbr}</p>
+                      {reg.accessCode && (
+                        <span className="inline-block mt-1 px-1.5 py-0.5 rounded font-['Bebas_Neue'] text-[11px] tracking-[2px] text-[#e8000d]"
+                          style={{ background: 'rgba(232,0,13,0.08)', border: '1px solid rgba(232,0,13,0.2)' }}
+                          title="Captain access code">
+                          {reg.accessCode}
+                        </span>
+                      )}
                     </div>
                     <div className="col-span-2 font-['Inter'] text-sm text-white/70 truncate">{reg.captainName}</div>
                     <div className="col-span-2">
