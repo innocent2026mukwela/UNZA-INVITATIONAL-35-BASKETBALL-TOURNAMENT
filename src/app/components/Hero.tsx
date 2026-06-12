@@ -91,13 +91,10 @@ export function Hero() {
 
         {/* Participating Nations */}
         <div className="flex items-center justify-center gap-3 mb-8">
-          <span className="font-['Barlow_Condensed'] text-[11px] tracking-[4px] text-white/45 uppercase">Participating Nations</span>
-          <div className="flex items-center gap-2">
-            {NATIONS.map(n => (
-              <img key={n.code} src={n.flag} alt={n.name} title={n.name}
-                className="w-7 h-5 object-cover rounded-sm ring-1 ring-white/25" />
-            ))}
-          </div>
+          {NATIONS.map(n => (
+            <img key={n.code} src={n.flag} alt={n.name} title={n.name}
+              className="w-12 h-8 object-cover rounded-md ring-1 ring-white/25" />
+          ))}
         </div>
 
         {/* Tagline */}
