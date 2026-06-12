@@ -2,6 +2,12 @@ import { useEffect, useRef } from 'react';
 
 const HERO_BG = '/gallery/side-view-man-playing-basketball.jpg';
 
+const NATIONS = [
+  { code: 'zm', name: 'Zambia',  flag: '/flags/zambia.png' },
+  { code: 'mw', name: 'Malawi',  flag: '/flags/malawi.png' },
+  { code: 'cd', name: 'DRC',     flag: '/flags/drc.png' },
+];
+
 export function Hero() {
   const logoRef = useRef<HTMLImageElement>(null);
 
@@ -81,6 +87,17 @@ export function Hero() {
           <div className="h-px w-16 bg-gradient-to-r from-transparent to-[#e8000d]" />
           <span className="font-['Barlow_Condensed'] text-[#e8000d] tracking-[6px] text-lg font-bold uppercase">4th &ndash; 5th July 2026</span>
           <div className="h-px w-16 bg-gradient-to-l from-transparent to-[#e8000d]" />
+        </div>
+
+        {/* Participating Nations */}
+        <div className="flex items-center justify-center gap-3 mb-8">
+          <span className="font-['Barlow_Condensed'] text-[11px] tracking-[4px] text-white/45 uppercase">Participating Nations</span>
+          <div className="flex items-center gap-2">
+            {NATIONS.map(n => (
+              <img key={n.code} src={n.flag} alt={n.name} title={n.name}
+                className="w-7 h-5 object-cover rounded-sm ring-1 ring-white/25" />
+            ))}
+          </div>
         </div>
 
         {/* Tagline */}

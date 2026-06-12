@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router';
 
 const LINKS = ['Home','About','Gallery','Schedule','Register','Contact','Sponsors'];
 
@@ -52,6 +53,10 @@ export function Navbar() {
               {l}
             </a>
           ))}
+          <Link to="/teams"
+            className="nav-link-red px-4 py-2 font-['Barlow_Condensed'] uppercase tracking-[2px] text-sm transition-colors duration-200 rounded-md hover:bg-white/5 text-white/65 hover:text-white">
+            Teams
+          </Link>
         </div>
 
         {/* Desktop CTA */}
@@ -85,6 +90,13 @@ export function Navbar() {
               </svg>
             </a>
           ))}
+          <Link to="/teams" onClick={() => setMenuOpen(false)}
+            className="flex items-center justify-between py-3 px-4 rounded-lg font-['Barlow_Condensed'] uppercase tracking-[2px] text-sm transition-all duration-200 text-white/65 hover:bg-white/5 hover:text-white">
+            Teams
+            <svg className="w-3.5 h-3.5 text-[#e8000d]/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+            </svg>
+          </Link>
           <div className="pt-3">
             <a href="#register" onClick={() => setMenuOpen(false)} className="btn-primary w-full text-center block">
               REGISTER NOW

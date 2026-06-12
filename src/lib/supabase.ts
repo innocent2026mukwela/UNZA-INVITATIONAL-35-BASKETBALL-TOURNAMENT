@@ -17,6 +17,7 @@ export interface Registration {
   player_count: string;
   players: string[];
   logo: string;
+  team_group?: 'A' | 'B' | 'C' | null;
   registered_at?: string;
 }
 

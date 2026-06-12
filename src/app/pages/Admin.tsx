@@ -16,6 +16,7 @@ interface Registration {
   teamEmail:    string;
   playerCount:  string;
   players:      string[];
+  teamGroup:    'A' | 'B' | 'C' | null;
   registeredAt: string;
 }
 
@@ -72,6 +73,7 @@ export default function Admin() {
       captainName: r.captain_name, coachName: r.coach_name,
       coachPhone: r.coach_phone, teamEmail: r.team_email,
       playerCount: r.player_count, players: r.players || [],
+      teamGroup: r.team_group ?? null,
       registeredAt: r.registered_at,
     })));
   }
@@ -113,6 +115,11 @@ export default function Admin() {
     await supabase.from('registrations').delete().eq('id', id);
     setDeleteTarget(null);
     setExpandedRow(null);
+    loadRegs();
+  }
+
+  async function updateGroup(id: string, group: 'A' | 'B' | 'C' | '') {
+    await supabase.from('registrations').update({ team_group: group || null }).eq('id', id);
     loadRegs();
   }
 
@@ -213,7 +220,7 @@ export default function Admin() {
             <img src="/gallery/logo.jpeg" alt="" className="w-full h-full object-cover" />
           </div>
           <div>
-            <span className="font-['Bebas_Neue'] text-lg text-white tracking-wider">UNZA LEGACY</span>
+            <span className="font-['Bebas_Neue'] text-lg text-white tracking-wider">UNZA INVITATIONAL</span>
             <span className="font-['Barlow_Condensed'] text-xs text-[#e8000d] uppercase tracking-wider ml-3">Admin</span>
           </div>
         </div>
@@ -423,6 +430,20 @@ export default function Admin() {
                         }}>
                         {reg.division === 'male' ? "Men's" : "Women's"}
                       </span>
+                      {reg.division === 'male' && (
+                        <select
+                          value={reg.teamGroup ?? ''}
+                          onClick={e => e.stopPropagation()}
+                          onChange={e => updateGroup(reg.id, e.target.value as 'A' | 'B' | 'C' | '')}
+                          className="block mt-1.5 bg-white/5 border border-white/10 rounded px-1.5 py-0.5 text-[11px] text-white/70 outline-none focus:border-[#e8000d]/50"
+                          title="Assign group"
+                        >
+                          <option value="">No Group</option>
+                          <option value="A">Group A</option>
+                          <option value="B">Group B</option>
+                          <option value="C">Group C</option>
+                        </select>
+                      )}
                     </div>
                     <div className="col-span-2">
                       <p className="font-['Inter'] text-sm text-white font-medium truncate">{reg.teamName}</p>
