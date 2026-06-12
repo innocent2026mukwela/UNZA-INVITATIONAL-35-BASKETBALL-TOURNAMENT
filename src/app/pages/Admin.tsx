@@ -17,7 +17,15 @@ interface Registration {
   playerCount:  string;
   players:      string[];
   teamGroup:    'A' | 'B' | 'C' | null;
+  accessCode:   string | null;
   registeredAt: string;
+}
+
+const CODE_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+function generateCode(length = 6) {
+  let code = '';
+  for (let i = 0; i < length; i++) code += CODE_CHARS[Math.floor(Math.random() * CODE_CHARS.length)];
+  return code;
 }
 
 function formatDate(iso: string) {
@@ -74,6 +82,7 @@ export default function Admin() {
       coachPhone: r.coach_phone, teamEmail: r.team_email,
       playerCount: r.player_count, players: r.players || [],
       teamGroup: r.team_group ?? null,
+      accessCode: r.access_code ?? null,
       registeredAt: r.registered_at,
     })));
   }
@@ -120,6 +129,11 @@ export default function Admin() {
 
   async function updateGroup(id: string, group: 'A' | 'B' | 'C' | '') {
     await supabase.from('registrations').update({ team_group: group || null }).eq('id', id);
+    loadRegs();
+  }
+
+  async function generateAccessCode(id: string) {
+    await supabase.from('registrations').update({ access_code: generateCode() }).eq('id', id);
     loadRegs();
   }
 
@@ -503,6 +517,25 @@ export default function Admin() {
                         {(!reg.players || reg.players.length === 0) && (
                           <p className="font-['Inter'] text-xs text-white/30 col-span-full">No player names recorded.</p>
                         )}
+                      </div>
+
+                      {/* Captain access code */}
+                      <div className="flex items-center gap-3 mt-4 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                        <p className="font-['Barlow_Condensed'] uppercase tracking-[2px] text-xs text-white/35">Captain Access Code</p>
+                        {reg.accessCode ? (
+                          <span className="font-['Bebas_Neue'] text-lg tracking-[3px] text-[#e8000d] px-3 py-1 rounded-lg"
+                            style={{ background: 'rgba(232,0,13,0.08)', border: '1px solid rgba(232,0,13,0.2)' }}>
+                            {reg.accessCode}
+                          </span>
+                        ) : (
+                          <span className="font-['Inter'] text-xs text-white/30">Not generated yet</span>
+                        )}
+                        <button
+                          onClick={e => { e.stopPropagation(); generateAccessCode(reg.id); }}
+                          className="px-3 py-1.5 rounded-lg font-['Barlow_Condensed'] uppercase tracking-wider text-xs text-white/60 hover:text-white transition-colors"
+                          style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.04)' }}>
+                          {reg.accessCode ? 'Regenerate' : 'Generate'}
+                        </button>
                       </div>
                     </div>
                   )}

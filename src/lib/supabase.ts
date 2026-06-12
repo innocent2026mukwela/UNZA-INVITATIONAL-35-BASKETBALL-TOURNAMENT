@@ -18,7 +18,19 @@ export interface Registration {
   players: string[];
   logo: string;
   team_group?: 'A' | 'B' | 'C' | null;
+  access_code?: string | null;
   registered_at?: string;
+}
+
+export interface TeamPlayer {
+  id?: string;
+  registration_id: string;
+  name: string;
+  photo?: string | null;
+  profession?: string | null;
+  bio?: string | null;
+  sort_order?: number;
+  created_at?: string;
 }
 
 export interface Sponsor {

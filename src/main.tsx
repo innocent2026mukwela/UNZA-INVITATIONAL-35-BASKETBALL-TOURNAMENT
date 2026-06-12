@@ -4,6 +4,7 @@ import App         from './app/App.tsx';
 import Admin       from './app/pages/Admin.tsx';
 import Teams       from './app/pages/Teams.tsx';
 import TeamProfile from './app/pages/TeamProfile.tsx';
+import Captain     from './app/pages/Captain.tsx';
 import './styles/index.css';
 import './styles/animations.css';
 
@@ -14,6 +15,7 @@ createRoot(document.getElementById('root')!).render(
       <Route path="/admin" element={<Admin />} />
       <Route path="/teams" element={<Teams />} />
       <Route path="/teams/:teamId" element={<TeamProfile />} />
+      <Route path="/captain" element={<Captain />} />
     </Routes>
   </BrowserRouter>
 );

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router';
 import { supabase } from '../../lib/supabase';
+import type { TeamPlayer } from '../../lib/supabase';
 
 interface TeamRow {
   id: string;
@@ -13,9 +14,38 @@ interface TeamRow {
   team_group: 'A' | 'B' | 'C' | null;
 }
 
+function PlayerCard({ player }: { player: TeamPlayer }) {
+  const [imgOk, setImgOk] = useState(true);
+  return (
+    <div className="rounded-xl p-4 flex flex-col items-center text-center"
+      style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
+      <div className="w-16 h-16 mb-3 rounded-full overflow-hidden flex items-center justify-center flex-shrink-0"
+        style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(232,0,13,0.2)' }}>
+        {player.photo && imgOk ? (
+          <img src={player.photo} alt={player.name} className="w-full h-full object-cover"
+            onError={() => setImgOk(false)} />
+        ) : (
+          <svg className="w-7 h-7 text-[#e8000d]/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+          </svg>
+        )}
+      </div>
+      <p className="font-['Barlow_Condensed'] uppercase tracking-[2px] text-sm font-bold text-white">{player.name}</p>
+      {player.profession && (
+        <p className="font-['Inter'] text-xs text-[#e8000d] mt-0.5">{player.profession}</p>
+      )}
+      {player.bio && (
+        <p className="font-['Inter'] text-xs text-white/45 mt-2 leading-relaxed">{player.bio}</p>
+      )}
+    </div>
+  );
+}
+
 export default function TeamProfile() {
   const { teamId } = useParams<{ teamId: string }>();
   const [team,    setTeam]    = useState<TeamRow | null>(null);
+  const [players, setPlayers] = useState<TeamPlayer[]>([]);
   const [loading, setLoading] = useState(true);
   const [imgOk,   setImgOk]   = useState(true);
 
@@ -27,6 +57,16 @@ export default function TeamProfile() {
         .eq('id', teamId)
         .maybeSingle();
       setTeam(data as TeamRow | null);
+
+      if (data) {
+        const { data: playerRows } = await supabase
+          .from('team_players')
+          .select('*')
+          .eq('registration_id', teamId)
+          .order('sort_order');
+        setPlayers((playerRows as TeamPlayer[]) || []);
+      }
+
       setLoading(false);
     }
     load();
@@ -120,9 +160,23 @@ export default function TeamProfile() {
                 </div>
               </div>
 
-              <p className="font-['Inter'] text-xs text-white/30 mt-10">
-                Player roster coming soon.
-              </p>
+              {/* Roster */}
+              <div className="mt-12">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent to-[#e8000d]/30" />
+                  <span className="font-['Barlow_Condensed'] text-[#e8000d] text-sm font-bold tracking-[4px] uppercase">Roster</span>
+                  <div className="h-px flex-1 bg-gradient-to-l from-transparent to-[#e8000d]/30" />
+                </div>
+                {players.length > 0 ? (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {players.map(p => <PlayerCard key={p.id} player={p} />)}
+                  </div>
+                ) : (
+                  <p className="font-['Inter'] text-xs text-white/30">
+                    Player roster coming soon.
+                  </p>
+                )}
+              </div>
             </div>
           )}
 
