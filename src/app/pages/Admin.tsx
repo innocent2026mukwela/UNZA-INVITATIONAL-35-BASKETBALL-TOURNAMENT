@@ -251,43 +251,44 @@ export default function Admin() {
     <div className="min-h-screen" style={{ background: '#080808', fontFamily: 'Inter, sans-serif' }}>
 
       {/* Top bar */}
-      <header className="sticky top-0 z-50 px-6 py-4 flex items-center justify-between"
+      <header className="sticky top-0 z-50 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-2"
         style={{ background: 'rgba(8,8,8,0.95)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(232,0,13,0.18)' }}>
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full overflow-hidden border border-[#e8000d]">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+          <div className="w-8 h-8 rounded-full overflow-hidden border border-[#e8000d] flex-shrink-0">
             <img src="/gallery/logo.jpeg" alt="" className="w-full h-full object-cover" />
           </div>
-          <div>
-            <span className="font-['Bebas_Neue'] text-lg text-white tracking-wider">UNZA INVITATIONAL</span>
-            <span className="font-['Barlow_Condensed'] text-xs text-[#e8000d] uppercase tracking-wider ml-3">Admin</span>
+          <div className="min-w-0">
+            <span className="font-['Bebas_Neue'] text-sm sm:text-lg text-white tracking-wider truncate">UNZA INVITATIONAL</span>
+            <span className="font-['Barlow_Condensed'] text-xs text-[#e8000d] uppercase tracking-wider ml-2 sm:ml-3">Admin</span>
           </div>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
           <button
             onClick={() => exportCSV(regs)}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg font-['Barlow_Condensed'] uppercase tracking-wider text-xs text-white/60 hover:text-white transition-colors"
+            title="Export CSV"
+            className="flex items-center gap-2 px-2.5 sm:px-4 py-2 rounded-lg font-['Barlow_Condensed'] uppercase tracking-wider text-xs text-white/60 hover:text-white transition-colors"
             style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.04)' }}>
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
             </svg>
-            Export CSV
+            <span className="hidden sm:inline">Export CSV</span>
           </button>
-          <a href="/" className="flex items-center gap-2 px-4 py-2 rounded-lg font-['Barlow_Condensed'] uppercase tracking-wider text-xs text-white/60 hover:text-white transition-colors"
+          <a href="/" title="Website" className="flex items-center gap-2 px-2.5 sm:px-4 py-2 rounded-lg font-['Barlow_Condensed'] uppercase tracking-wider text-xs text-white/60 hover:text-white transition-colors"
             style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.04)' }}>
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            Website
+            <span className="hidden sm:inline">Website</span>
           </a>
           <button onClick={() => setAuthed(false)}
-            className="px-4 py-2 rounded-lg font-['Barlow_Condensed'] uppercase tracking-wider text-xs text-[#e8000d] hover:bg-[#e8000d]/10 transition-colors"
+            className="px-2.5 sm:px-4 py-2 rounded-lg font-['Barlow_Condensed'] uppercase tracking-wider text-xs text-[#e8000d] hover:bg-[#e8000d]/10 transition-colors"
             style={{ border: '1px solid rgba(232,0,13,0.3)' }}>
             Logout
           </button>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-6 py-10">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
 
         {/* Stats cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
@@ -437,7 +438,7 @@ export default function Admin() {
         ) : (
           <div className="rounded-2xl overflow-hidden" style={{ border: '1px solid rgba(232,0,13,0.15)' }}>
             {/* Table header */}
-            <div className="grid grid-cols-12 gap-2 px-5 py-3 text-xs font-['Barlow_Condensed'] uppercase tracking-[2px] text-white/40"
+            <div className="hidden md:grid grid-cols-12 gap-2 px-5 py-3 text-xs font-['Barlow_Condensed'] uppercase tracking-[2px] text-white/40"
               style={{ background: 'rgba(232,0,13,0.08)', borderBottom: '1px solid rgba(232,0,13,0.15)' }}>
               <div className="col-span-1">#</div>
               <div className="col-span-2">Division</div>
@@ -456,10 +457,22 @@ export default function Admin() {
                 <div key={reg.id} style={{ borderBottom: displayIdx < filtered.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
                   {/* Main row */}
                   <div
-                    className="grid grid-cols-12 gap-2 px-5 py-4 items-center cursor-pointer transition-colors hover:bg-white/3"
+                    className="grid grid-cols-2 md:grid-cols-12 gap-3 md:gap-2 px-4 md:px-5 py-4 items-center cursor-pointer transition-colors hover:bg-white/3"
                     onClick={() => setExpandedRow(isExpanded ? null : reg.id)}>
-                    <div className="col-span-1 font-['Bebas_Neue'] text-xl text-[#e8000d]">{displayIdx + 1}</div>
-                    <div className="col-span-2">
+                    <div className="hidden md:block md:col-span-1 font-['Bebas_Neue'] text-xl text-[#e8000d]">{displayIdx + 1}</div>
+                    <div className="col-span-2 order-1 md:order-none md:col-span-2">
+                      <p className="font-['Inter'] text-sm text-white font-medium truncate">{reg.teamName}</p>
+                      <p className="font-['Barlow_Condensed'] text-xs text-white/35 tracking-wider">{reg.teamAbbr}</p>
+                      {reg.accessCode && (
+                        <span className="inline-block mt-1 px-1.5 py-0.5 rounded font-['Bebas_Neue'] text-[11px] tracking-[2px] text-[#e8000d]"
+                          style={{ background: 'rgba(232,0,13,0.08)', border: '1px solid rgba(232,0,13,0.2)' }}
+                          title="Captain access code">
+                          {reg.accessCode}
+                        </span>
+                      )}
+                    </div>
+                    <div className="col-span-1 order-2 md:order-none md:col-span-2">
+                      <p className="md:hidden font-['Barlow_Condensed'] uppercase tracking-[2px] text-[10px] text-white/30 mb-1">Division</p>
                       <span className="inline-block px-2 py-0.5 rounded-full font-['Barlow_Condensed'] text-xs uppercase tracking-wider"
                         style={{
                           background: reg.division === 'male' ? 'rgba(59,130,246,0.15)' : 'rgba(236,72,153,0.15)',
@@ -483,29 +496,24 @@ export default function Admin() {
                         </select>
                       )}
                     </div>
-                    <div className="col-span-2">
-                      <p className="font-['Inter'] text-sm text-white font-medium truncate">{reg.teamName}</p>
-                      <p className="font-['Barlow_Condensed'] text-xs text-white/35 tracking-wider">{reg.teamAbbr}</p>
-                      {reg.accessCode && (
-                        <span className="inline-block mt-1 px-1.5 py-0.5 rounded font-['Bebas_Neue'] text-[11px] tracking-[2px] text-[#e8000d]"
-                          style={{ background: 'rgba(232,0,13,0.08)', border: '1px solid rgba(232,0,13,0.2)' }}
-                          title="Captain access code">
-                          {reg.accessCode}
-                        </span>
-                      )}
+                    <div className="col-span-1 order-3 md:order-none md:col-span-1 text-left md:text-center">
+                      <p className="md:hidden font-['Barlow_Condensed'] uppercase tracking-[2px] text-[10px] text-white/30 mb-1">Players</p>
+                      <span className="font-['Bebas_Neue'] text-2xl text-[#e8000d]">{reg.playerCount}</span>
                     </div>
-                    <div className="col-span-2 font-['Inter'] text-sm text-white/70 truncate">{reg.captainName}</div>
-                    <div className="col-span-2">
+                    <div className="col-span-1 order-4 md:order-none md:col-span-2">
+                      <p className="md:hidden font-['Barlow_Condensed'] uppercase tracking-[2px] text-[10px] text-white/30 mb-1">Captain</p>
+                      <p className="font-['Inter'] text-sm text-white/70 truncate">{reg.captainName}</p>
+                    </div>
+                    <div className="col-span-1 order-5 md:order-none md:col-span-2">
+                      <p className="md:hidden font-['Barlow_Condensed'] uppercase tracking-[2px] text-[10px] text-white/30 mb-1">Coach</p>
                       <p className="font-['Inter'] text-sm text-white/70 truncate">{reg.coachName}</p>
                       <p className="font-['Inter'] text-xs text-white/35">{reg.coachPhone}</p>
                     </div>
-                    <div className="col-span-1 text-center">
-                      <span className="font-['Bebas_Neue'] text-2xl text-[#e8000d]">{reg.playerCount}</span>
-                    </div>
-                    <div className="col-span-1 font-['Inter'] text-xs text-white/35 leading-tight">
+                    <div className="col-span-1 order-6 md:order-none md:col-span-1 font-['Inter'] text-xs text-white/35 leading-tight">
+                      <p className="md:hidden font-['Barlow_Condensed'] uppercase tracking-[2px] text-[10px] text-white/30 mb-1">Registered</p>
                       {formatDate(reg.registeredAt)}
                     </div>
-                    <div className="col-span-1 flex items-center justify-center gap-2">
+                    <div className="col-span-1 order-7 md:order-none md:col-span-1 flex items-center justify-start md:justify-center gap-2">
                       {/* Expand */}
                       <button
                         onClick={e => { e.stopPropagation(); setExpandedRow(isExpanded ? null : reg.id); }}
@@ -529,7 +537,7 @@ export default function Admin() {
 
                   {/* Expanded roster */}
                   {isExpanded && (
-                    <div className="px-5 pb-5 pt-1"
+                    <div className="px-4 md:px-5 pb-5 pt-1"
                       style={{ background: 'rgba(232,0,13,0.03)', borderTop: '1px solid rgba(232,0,13,0.1)' }}>
                       <p className="font-['Barlow_Condensed'] uppercase tracking-[2px] text-xs text-white/35 mb-3">
                         Player Roster — {reg.playerCount} Players
@@ -585,7 +593,7 @@ export default function Admin() {
                       )}
 
                       {/* Captain access code */}
-                      <div className="flex items-center gap-3 mt-4 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                      <div className="flex flex-wrap items-center gap-3 mt-4 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                         <p className="font-['Barlow_Condensed'] uppercase tracking-[2px] text-xs text-white/35">Captain Access Code</p>
                         {reg.accessCode ? (
                           <span className="font-['Bebas_Neue'] text-lg tracking-[3px] text-[#e8000d] px-3 py-1 rounded-lg"
