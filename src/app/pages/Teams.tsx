@@ -75,7 +75,7 @@ export default function Teams() {
         .from('registrations')
         .select('id, team_name, team_abbr, logo, captain_name, team_group')
         .eq('division', 'male')
-        .order('team_name');
+        .order('registered_at');
       setTeams((data as TeamRow[]) || []);
       setLoading(false);
     }
@@ -83,6 +83,13 @@ export default function Teams() {
   }, []);
 
   const drawDone = teams.some(t => t.team_group);
+
+  // Groups are auto-assigned 4-per-group in registration order until the
+  // admin manually sets team_group after the official draw.
+  const groupedTeams: Record<'A' | 'B' | 'C', TeamRow[]> = { A: [], B: [], C: [] };
+  GROUPS.forEach((g, i) => {
+    groupedTeams[g] = drawDone ? teams.filter(t => t.team_group === g) : teams.slice(i * 4, i * 4 + 4);
+  });
 
   return (
     <div className="min-h-screen text-white" style={{ background: '#080808' }}>
@@ -133,12 +140,12 @@ export default function Teams() {
             </p>
           </div>
 
-          {!drawDone && !loading && (
+          {!drawDone && !loading && teams.length > 0 && (
             <div className="rounded-2xl p-6 text-center mb-12"
               style={{ background: 'rgba(232,0,13,0.04)', border: '1px solid rgba(232,0,13,0.15)' }}>
-              <p className="font-['Barlow_Condensed'] uppercase tracking-[3px] text-sm text-[#e8000d] font-bold mb-1">Draw Pending</p>
+              <p className="font-['Barlow_Condensed'] uppercase tracking-[3px] text-sm text-[#e8000d] font-bold mb-1">Provisional Groups</p>
               <p className="font-['Inter'] text-sm text-white/55">
-                Group draw takes place on <span className="text-white font-semibold">20 June 2026</span>. Teams will be sorted into Groups A, B and C after the draw.
+                Groups below are provisional and may change after the official draw on <span className="text-white font-semibold">20 June 2026</span>.
               </p>
             </div>
           )}
@@ -147,12 +154,10 @@ export default function Teams() {
             <p className="text-center font-['Inter'] text-sm text-white/30 py-16">Loading teams…</p>
           ) : teams.length === 0 ? (
             <p className="text-center font-['Bebas_Neue'] text-3xl text-white/20 tracking-wider py-16">NO TEAMS REGISTERED YET</p>
-          ) : drawDone ? (
-            GROUPS.map(g => (
-              <GroupSection key={g} label={`Group ${g}`} teams={teams.filter(t => t.team_group === g)} />
-            ))
           ) : (
-            <GroupSection label="All Teams" teams={teams} />
+            GROUPS.map(g => (
+              <GroupSection key={g} label={`Group ${g}`} teams={groupedTeams[g]} />
+            ))
           )}
 
         </div>
