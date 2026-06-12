@@ -61,6 +61,10 @@ export function Navbar() {
             className="nav-link-red px-4 py-2 font-['Barlow_Condensed'] uppercase tracking-[2px] text-sm transition-colors duration-200 rounded-md hover:bg-white/5 text-white/65 hover:text-white">
             Captain Login
           </Link>
+          <Link to="/admin"
+            className="nav-link-red px-4 py-2 font-['Barlow_Condensed'] uppercase tracking-[2px] text-sm transition-colors duration-200 rounded-md hover:bg-white/5 text-white/65 hover:text-white">
+            Admin
+          </Link>
         </div>
 
         {/* Desktop CTA */}
@@ -104,6 +108,13 @@ export function Navbar() {
           <Link to="/captain" onClick={() => setMenuOpen(false)}
             className="flex items-center justify-between py-3 px-4 rounded-lg font-['Barlow_Condensed'] uppercase tracking-[2px] text-sm transition-all duration-200 text-white/65 hover:bg-white/5 hover:text-white">
             Captain Login
+            <svg className="w-3.5 h-3.5 text-[#e8000d]/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+            </svg>
+          </Link>
+          <Link to="/admin" onClick={() => setMenuOpen(false)}
+            className="flex items-center justify-between py-3 px-4 rounded-lg font-['Barlow_Condensed'] uppercase tracking-[2px] text-sm transition-all duration-200 text-white/65 hover:bg-white/5 hover:text-white">
+            Admin
             <svg className="w-3.5 h-3.5 text-[#e8000d]/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
             </svg>
