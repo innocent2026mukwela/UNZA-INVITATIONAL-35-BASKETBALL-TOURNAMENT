@@ -13,7 +13,7 @@ const rows = [
   },
   {
     phase: 'Registration Deadline',
-    dates: '15 June 2026',
+    dates: '19 June 2026',
     details: 'All team registrations and fees must be submitted',
     icon: (
       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -3,7 +3,7 @@ import emailjs from '@emailjs/browser';
 import { supabase } from '../../lib/supabase';
 
 const BG = '/gallery/tom-briskey-AddAnDkkovM-unsplash.jpg';
-const REGISTRATION_DEADLINE = new Date('2026-06-15T23:59:59');
+const REGISTRATION_DEADLINE = new Date('2026-06-19T23:59:59');
 const MALE_MAX   = 12;
 const FEMALE_MAX = 8;
 
@@ -217,7 +217,7 @@ export function Registration() {
           </p>
           <p className="font-['Inter'] text-white/60 text-sm mb-8 leading-relaxed">
             Please ensure that you provide a verified team list before{' '}
-            <span className="text-white font-semibold">15th June, 2026</span>.
+            <span className="text-white font-semibold">19th June, 2026</span>.
           </p>
           <button type="button"
             onClick={() => { setDone(false); setForm(blank); setPreview(''); setFile(null); setErrors({}); }}
@@ -248,7 +248,7 @@ export function Registration() {
           </h3>
           <p className="font-['Inter'] text-white/60 leading-relaxed">
             {deadlinePassed
-              ? 'The registration deadline of 15 June 2026 has passed. No further registrations are being accepted.'
+              ? 'The registration deadline of 19 June 2026 has passed. No further registrations are being accepted.'
               : 'Both divisions are now full. All 20 team slots have been filled. See you on the court!'}
           </p>
         </div>
@@ -269,7 +269,7 @@ export function Registration() {
 
         <p className="font-['Inter'] text-white/60 text-center mb-10 -mt-6 reveal">
           Open to players aged <strong className="text-white font-semibold">35 and above</strong>.
-          {' '}Registration closes <strong className="text-[#e8000d] font-semibold">15 June 2026</strong>.
+          {' '}Registration closes <strong className="text-[#e8000d] font-semibold">19 June 2026</strong>.
           {' '}Entry fee: <strong className="text-white font-semibold">K5,000 per team</strong>.
         </p>
 
